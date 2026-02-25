@@ -55,9 +55,9 @@
     "watch:esbuild": "node esbuild.config.js --watch",
     "watch:tsc": "tsc --noEmit --watch --preserveWatchOutput",
     "vscode:prepublish": "npm run build",
-    "package:vsix": "npx @vscode/vsce package",
-    "publish:stable": "npx @vscode/vsce publish",
-    "publish:pre-release": "npx @vscode/vsce publish --pre-release",
+    "package:vsix": "npx vsce package",
+    "publish:stable": "npx vsce publish",
+    "publish:pre-release": "npx vsce publish --pre-release",
     "lint": "eslint .",
     "test": "echo \"No tests yet\""
   },

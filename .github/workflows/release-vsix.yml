@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
       - name: Install dependencies
@@ -36,17 +36,17 @@ jobs:
         run: npm run lint
 
       - name: Package VSIX
-        run: npx @vscode/vsce package
+        run: npx vsce package
 
       - name: Publish VS Code Pre-release
         if: github.ref_name == 'pre-release'
-        run: npx @vscode/vsce publish --pre-release
+        run: npx vsce publish --pre-release
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
       - name: Publish VS Code Stable
         if: github.ref_name == 'master'
-        run: npx @vscode/vsce publish
+        run: npx vsce publish
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
