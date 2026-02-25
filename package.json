@@ -1,0 +1,69 @@
+{
+  "name": "schema-forge",
+  "publisher": "xubylele",
+  "displayName": "Schema Forge",
+  "description": "Official VS Code extension for Schema Forge. Provides language support and tooling for the Schema Forge DSL (.sf).",
+  "version": "0.0.1",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "schema-forge",
+    "vscode",
+    "dsl",
+    "database",
+    "postgres",
+    "migration",
+    "schema"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xubylele/schema-forge-vscode.git"
+  },
+  "activationEvents": [
+    "onLanguage:schema-forge",
+    "onCommand:schema-forge-vscode.runPlaceholder"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "schema-forge",
+        "aliases": [
+          "Schema Forge",
+          "schema-forge"
+        ],
+        "extensions": [
+          ".sf"
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "schema-forge-vscode.runPlaceholder",
+        "title": "Schema Forge: Run Placeholder Command"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "watch": "node esbuild.config.js --watch",
+    "vscode:prepublish": "npm run build",
+    "lint": "eslint .",
+    "test": "echo \"No tests yet\""
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.109.0",
+    "@vscode/vsce": "^3.6.2",
+    "eslint": "^9.39.2",
+    "esbuild": "^0.27.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0"
+  }
+}
