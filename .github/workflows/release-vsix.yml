@@ -3,8 +3,8 @@ name: Release Extension
 on:
   push:
     branches:
+      - master
       - pre-release
-      - main
     paths:
       - package.json
       - CHANGELOG.md
@@ -45,7 +45,7 @@ jobs:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
       - name: Publish VS Code Stable
-        if: github.ref_name == 'main'
+        if: github.ref_name == 'master'
         run: npx @vscode/vsce publish
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}

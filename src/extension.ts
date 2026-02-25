@@ -5,8 +5,8 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Schema Forge extension activated');
 
-	const disposable = vscode.commands.registerCommand('schema-forge-vscode.runPlaceholder', () => {
-		vscode.window.showInformationMessage('Schema Forge placeholder command executed.');
+	const disposable = vscode.commands.registerCommand('schemaForge.helloWorld', () => {
+		vscode.window.showInformationMessage('Hello World from Schema Forge.');
 	});
 
 	context.subscriptions.push(disposable);

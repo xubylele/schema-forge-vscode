@@ -10,4 +10,4 @@ This repository uses Changesets for versioning and changelog management.
 4. Commit the generated file in `.changeset/` with your feature changes.
 5. Open a pull request.
 
-When changesets land on `main`, automation creates or updates a **Version Packages** PR that applies version bumps and changelog updates.
+When changesets land on `master`, automation creates or updates a **Version Packages** PR that applies version bumps and changelog updates.

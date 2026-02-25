@@ -9,7 +9,7 @@ Official VS Code extension for Schema Forge DSL (`.sf`).
 ## Features
 
 - **`.sf` Language Registration** - Detects Schema Forge files in VS Code
-- **Command Integration** - Contributes a command to the Command Palette
+- **Command Integration** - Contributes a smoke-test command to the Command Palette
 - **Extension Scaffolding** - TypeScript + esbuild setup for fast extension iteration
 - **Changesets-Ready Releases** - Structured versioning and changelog workflow
 
@@ -30,6 +30,12 @@ Then press `F5` in VS Code to launch an Extension Development Host with the exte
 
 ```bash
 npx @vscode/vsce package
+```
+
+or:
+
+```bash
+npm run package:vsix
 ```
 
 Install the generated `.vsix` file in VS Code using **Extensions: Install from VSIX...**.
@@ -67,6 +73,8 @@ Run tests:
 ```bash
 npm test
 ```
+
+Note: test scaffolding exists, but automated extension tests are not implemented yet.
 
 ## Getting Started
 
@@ -111,7 +119,7 @@ The file should be recognized as Schema Forge language (`schema-forge`).
 Open the Command Palette and run:
 
 ```text
-Schema Forge: Run Placeholder Command
+Schema Forge: Hello World
 ```
 
 You should see an information message confirming command execution.
@@ -126,12 +134,12 @@ Reload the Extension Development Host after changes to validate updates quickly.
 
 ## Commands
 
-### `Schema Forge: Run Placeholder Command`
+### `Schema Forge: Hello World`
 
-Runs the extension placeholder command registered as:
+Runs the extension smoke-test command registered as:
 
 ```text
-schema-forge-vscode.runPlaceholder
+schemaForge.helloWorld
 ```
 
 Current behavior:
@@ -173,7 +181,7 @@ Core extension metadata lives in `package.json`:
   "main": "./dist/extension.js",
   "activationEvents": [
     "onLanguage:schema-forge",
-    "onCommand:schema-forge-vscode.runPlaceholder"
+    "onCommand:schemaForge.helloWorld"
   ]
 }
 ```
@@ -191,7 +199,7 @@ Planned milestones include:
 
 A typical workflow for extension contributions:
 
-1. **Create branch** - Start from `main` (or active prerelease branch strategy)
+1. **Create branch** - Start from `master` (or active prerelease branch strategy)
 2. **Implement changes** - Update extension code in `src/`
 3. **Build and verify** - Run `npm run build`, `npm run lint`, and validate via `F5`
 4. **Add changeset** - Run `npx changeset` for user-facing changes
@@ -217,13 +225,40 @@ npx changeset
 Release channels:
 
 - `pre-release` publishes prerelease versions (`X.Y.Z-next.N`)
-- `main` publishes stable versions (`X.Y.Z`)
+- `master` publishes stable versions (`X.Y.Z`)
 
 Summary flow:
 
-- Feature branch -> changeset -> merge to `pre-release` -> prerelease publish -> promote to `main` -> stable publish
+- Feature branch -> changeset -> merge to `pre-release` -> prerelease publish -> promote to `master` -> stable publish
 
 For full process details, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Marketplace publish commands
+
+Stable:
+
+```bash
+npx @vscode/vsce publish
+```
+
+Pre-release:
+
+```bash
+npx @vscode/vsce publish --pre-release
+```
+
+or via npm scripts:
+
+```bash
+npm run publish:stable
+npm run publish:pre-release
+```
+
+Requirements:
+
+- `VSCE_PAT` must be configured in CI secrets.
+- `publisher` in `package.json` must match token ownership.
+- Each publish requires a unique version.
 
 ## Related Projects
 
