@@ -16,7 +16,6 @@ export async function getWorkspaceFolder(): Promise<vscode.WorkspaceFolder | und
     return workspaceFolders[0];
   }
 
-  // Multiple folders - ask user to choose
   const selected = await vscode.window.showWorkspaceFolderPick({
     placeHolder: 'Select workspace folder for Schema Forge initialization'
   });
