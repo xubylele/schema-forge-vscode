@@ -1,0 +1,201 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Schema Forge",
+  "scopeName": "source.schemaforge",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#table-declaration"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.schemaforge",
+          "match": "#.*$"
+        },
+        {
+          "name": "comment.line.double-slash.schemaforge",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "table-declaration": {
+      "begin": "\\b(table)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+      "end": "\\}",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.table.schemaforge"
+        },
+        "2": {
+          "name": "entity.name.type.table.schemaforge"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.schemaforge"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comments"
+        },
+        {
+          "match": "\\{",
+          "name": "punctuation.section.block.begin.schemaforge"
+        },
+        {
+          "include": "#column-definition"
+        }
+      ]
+    },
+    "column-definition": {
+      "match": "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s+(uuid|varchar|text|int|bigint|boolean|timestamptz|date|numeric)(\\([^)]+\\))?\\s*(.*?)\\s*$",
+      "captures": {
+        "1": {
+          "name": "variable.other.readwrite.column.schemaforge"
+        },
+        "2": {
+          "name": "storage.type.schemaforge"
+        },
+        "3": {
+          "patterns": [
+            {
+              "include": "#type-parameters"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "include": "#column-modifiers"
+            }
+          ]
+        }
+      }
+    },
+    "type-parameters": {
+      "match": "\\(([^)]+)\\)",
+      "captures": {
+        "0": {
+          "name": "meta.type.parameters.schemaforge"
+        },
+        "1": {
+          "patterns": [
+            {
+              "match": "\\d+",
+              "name": "constant.numeric.schemaforge"
+            },
+            {
+              "match": ",",
+              "name": "punctuation.separator.comma.schemaforge"
+            }
+          ]
+        }
+      }
+    },
+    "column-modifiers": {
+      "patterns": [
+        {
+          "include": "#comments"
+        },
+        {
+          "match": "\\b(pk)\\b",
+          "name": "storage.modifier.primary-key.schemaforge"
+        },
+        {
+          "match": "\\b(unique)\\b",
+          "name": "storage.modifier.unique.schemaforge"
+        },
+        {
+          "match": "\\b(not)\\s+(null)\\b",
+          "captures": {
+            "1": {
+              "name": "storage.modifier.not-null.schemaforge"
+            },
+            "2": {
+              "name": "storage.modifier.not-null.schemaforge"
+            }
+          }
+        },
+        {
+          "match": "\\b(nullable)\\b",
+          "name": "storage.modifier.nullable.schemaforge"
+        },
+        {
+          "match": "\\b(fk)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(\\.)([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.foreign-key.schemaforge"
+            },
+            "2": {
+              "name": "entity.name.type.table.schemaforge"
+            },
+            "3": {
+              "name": "punctuation.accessor.dot.schemaforge"
+            },
+            "4": {
+              "name": "variable.other.readwrite.column.schemaforge"
+            }
+          }
+        },
+        {
+          "begin": "\\b(default)\\b",
+          "end": "(?=\\b(?:pk|unique|not\\s+null|nullable|fk)\\b|#|//|$)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.default.schemaforge"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#default-values"
+            }
+          ]
+        }
+      ]
+    },
+    "default-values": {
+      "patterns": [
+        {
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(\\()",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.schemaforge"
+            },
+            "2": {
+              "name": "punctuation.section.parens.begin.schemaforge"
+            }
+          }
+        },
+        {
+          "match": "\\)",
+          "name": "punctuation.section.parens.end.schemaforge"
+        },
+        {
+          "match": "'[^']*'",
+          "name": "string.quoted.single.schemaforge"
+        },
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.schemaforge"
+        },
+        {
+          "match": "\\b(interval)\\b",
+          "name": "keyword.other.interval.schemaforge"
+        },
+        {
+          "match": "-?\\b\\d+(\\.\\d+)?\\b",
+          "name": "constant.numeric.schemaforge"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.schemaforge"
+        }
+      ]
+    }
+  }
+}
