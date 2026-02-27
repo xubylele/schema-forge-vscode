@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - pre-release
+      - main
   workflow_dispatch:
 
 jobs:
