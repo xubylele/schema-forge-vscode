@@ -27,7 +27,8 @@
   "activationEvents": [
     "onLanguage:schema-forge",
     "onCommand:schemaForge.helloWorld",
-    "onCommand:schemaForge.init"
+    "onCommand:schemaForge.init",
+    "onCommand:schemaForge.generate"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -64,6 +65,10 @@
       {
         "command": "schemaForge.init",
         "title": "Schema Forge: Init"
+      },
+      {
+        "command": "schemaForge.generate",
+        "title": "Schema Forge: Generate"
       }
     ]
   },

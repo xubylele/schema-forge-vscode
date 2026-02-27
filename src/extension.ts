@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { initCommand } from './commands/init';
+import { generateCommand } from './commands/generate';
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Schema Forge extension activated');
@@ -9,8 +10,9 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	const initDisposable = vscode.commands.registerCommand('schemaForge.init', initCommand);
+	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
 
-	context.subscriptions.push(disposable, initDisposable);
+	context.subscriptions.push(disposable, initDisposable, generateDisposable);
 }
 
 export function deactivate() { }
