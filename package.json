@@ -49,6 +49,11 @@
         "path": "./syntaxes/schemaforge.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "schema-forge",
+        "path": "./snippets/schemaforge.json"
+      }
     "commands": [
       {
         "command": "schemaForge.helloWorld",

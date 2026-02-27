@@ -1,0 +1,28 @@
+{
+  "Table": {
+    "prefix": "table",
+    "body": [
+      "table ${1:table_name} {",
+      "\t${2:id uuid pk default gen_random_uuid()}",
+      "\t${3:// Add more columns here}",
+      "\t$0",
+      "}"
+    ],
+    "description": "Create a new table with UUID primary key"
+  },
+  "UUID Primary Key": {
+    "prefix": "uuidpk",
+    "body": [
+      "${1:id} uuid pk default ${2:gen_random_uuid()}"
+    ],
+    "description": "UUID primary key column with default"
+  },
+  "Timestamps": {
+    "prefix": "timestamps",
+    "body": [
+      "created_at timestamptz default now()",
+      "updated_at timestamptz default now()"
+    ],
+    "description": "Add created_at and updated_at timestamp columns"
+  }
+}
