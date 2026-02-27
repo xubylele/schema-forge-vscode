@@ -3,7 +3,7 @@
   "publisher": "xubylele",
   "displayName": "Schema Forge",
   "description": "Official VS Code extension for Schema Forge. Provides language support and tooling for the Schema Forge DSL (.sf).",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "icon": "icon.png",
   "homepage": "https://github.com/xubylele/schema-forge",
