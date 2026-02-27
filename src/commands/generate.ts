@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { clearOutput, logToOutput, showOutput } from '../output';
+import { clearOutput, logInfo, logError, logToOutput, showOutput } from '../output';
 import { getWorkspaceFolder } from '../utils/workspace';
 
 function getLocalCliPath(): string | null {
@@ -41,21 +41,19 @@ export async function generateCommand(): Promise<void> {
   clearOutput();
   showOutput();
 
-  const timestamp = new Date().toLocaleTimeString();
-
   const localCliPath = getLocalCliPath();
   let command: string;
 
   if (localCliPath) {
     command = `node "${localCliPath}" generate ${nameArg}`.trim();
-    logToOutput(`[${timestamp}] Using local CLI: ${localCliPath}`);
+    logInfo(`Using local CLI: ${localCliPath}`);
   } else {
     command = `npx --yes @xubylele/schema-forge generate ${nameArg}`.trim();
-    logToOutput(`[${timestamp}] Using npx to run schema-forge generate`);
+    logInfo(`Using npx to run schema-forge generate`);
   }
 
-  logToOutput(`[${timestamp}] Working directory: ${workspaceFolder.uri.fsPath}`);
-  logToOutput('');
+  logInfo(`Working directory: ${workspaceFolder.uri.fsPath}`);
+  logInfo('');
 
   const childProcess = spawn(command, [], {
     cwd: workspaceFolder.uri.fsPath,
@@ -72,9 +70,8 @@ export async function generateCommand(): Promise<void> {
   });
 
   childProcess.on('close', (code: number | null) => {
-    const timestamp = new Date().toLocaleTimeString();
-    logToOutput('');
-    logToOutput(`[${timestamp}] Process exited with code: ${code}`);
+    logInfo('');
+    logInfo(`Process exited with code: ${code}`);
 
     if (code === 0) {
       vscode.window.showInformationMessage('Schema Forge migration generated successfully!');
@@ -85,9 +82,8 @@ export async function generateCommand(): Promise<void> {
 
   // Handle spawn errors
   childProcess.on('error', (error: Error) => {
-    const timestamp = new Date().toLocaleTimeString();
-    logToOutput('');
-    logToOutput(`[${timestamp}] Error: ${error.message}`);
+    logError('');
+    logError(`${error.message}`);
     vscode.window.showErrorMessage(`Failed to execute Schema Forge CLI: ${error.message}`);
   });
 }

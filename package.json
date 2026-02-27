@@ -28,7 +28,8 @@
     "onLanguage:schema-forge",
     "onCommand:schemaForge.helloWorld",
     "onCommand:schemaForge.init",
-    "onCommand:schemaForge.generate"
+    "onCommand:schemaForge.generate",
+    "onCommand:schemaForge.diff"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -69,6 +70,10 @@
       {
         "command": "schemaForge.generate",
         "title": "Schema Forge: Generate"
+      },
+      {
+        "command": "schemaForge.diff",
+        "title": "Schema Forge: Diff"
       }
     ]
   },

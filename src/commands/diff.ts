@@ -20,7 +20,7 @@ function getLocalCliPath(): string | null {
   return null;
 }
 
-export async function initCommand(): Promise<void> {
+export async function diffCommand(): Promise<void> {
   const workspaceFolder = await getWorkspaceFolder();
   if (!workspaceFolder) {
     return;
@@ -33,11 +33,11 @@ export async function initCommand(): Promise<void> {
   let command: string;
 
   if (localCliPath) {
-    command = `node "${localCliPath}" init`;
+    command = `node "${localCliPath}" diff`;
     logInfo(`Using local CLI: ${localCliPath}`);
   } else {
-    command = 'npx --yes @xubylele/schema-forge init';
-    logInfo(`Using npx to run schema-forge init`);
+    command = `npx --yes @xubylele/schema-forge diff`;
+    logInfo(`Using npx to run schema-forge diff`);
   }
 
   logInfo(`Working directory: ${workspaceFolder.uri.fsPath}`);
@@ -62,9 +62,9 @@ export async function initCommand(): Promise<void> {
     logInfo(`Process exited with code: ${code}`);
 
     if (code === 0) {
-      vscode.window.showInformationMessage('Schema Forge project initialized successfully!');
+      vscode.window.showInformationMessage('Schema Forge diff completed successfully!');
     } else {
-      vscode.window.showErrorMessage('Schema Forge init failed. Check output for details.');
+      vscode.window.showErrorMessage('Schema Forge diff failed. Check output for details.');
     }
   });
 
