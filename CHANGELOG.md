@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.3
+
+### Patch Changes
+
+- 414e794: # Patch Changes
+
+  - Updated `.github/workflows/changesets.yml` to trigger on pull requests to `develop` only, removing `pre-release` and `main` branches from the trigger list.
+  - Updated `.github/workflows/release-vsix.yml` to trigger on pushes to `master` only, removing `pre-release` from the trigger list.
+
 ## 0.1.2
 
 ### Patch Changes
