@@ -5,6 +5,12 @@
   "description": "Official VS Code extension for Schema Forge. Provides language support and tooling for the Schema Forge DSL (.sf).",
   "version": "0.0.1",
   "license": "MIT",
+  "icon": "icon.png",
+  "homepage": "https://github.com/xubylele/schema-forge",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.109.0"
   },
@@ -26,7 +32,6 @@
   },
   "activationEvents": [
     "onLanguage:schema-forge",
-    "onCommand:schemaForge.helloWorld",
     "onCommand:schemaForge.init",
     "onCommand:schemaForge.generate",
     "onCommand:schemaForge.diff"
@@ -59,10 +64,6 @@
       }
     ],
     "commands": [
-      {
-        "command": "schemaForge.helloWorld",
-        "title": "Schema Forge: Hello World"
-      },
       {
         "command": "schemaForge.init",
         "title": "Schema Forge: Init"

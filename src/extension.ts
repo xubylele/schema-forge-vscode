@@ -43,12 +43,39 @@ async function promptMissingProjectStructure(workspaceFolder: vscode.WorkspaceFo
 	}
 }
 
+/**
+ * Check if extension was updated and open README if so
+ */
+async function checkExtensionUpdate(context: vscode.ExtensionContext): Promise<void> {
+	const currentVersion = context.extension.packageJSON.version;
+	const previousVersion = context.globalState.get<string>('schemaForge.version');
+
+	// If there's a previous version and it's different from current, the extension was updated
+	if (previousVersion && previousVersion !== currentVersion) {
+		logToOutput(`Schema Forge extension updated from ${previousVersion} to ${currentVersion}`);
+
+		// Open README to show what's new
+		const extensionPath = context.extensionPath;
+		const readmePath = path.join(extensionPath, 'README.md');
+
+		try {
+			const readmeUri = vscode.Uri.file(readmePath);
+			await vscode.commands.executeCommand('markdown.showPreview', readmeUri);
+			logToOutput('Opened README to show update information');
+		} catch (error) {
+			logToOutput(`Failed to open README: ${error}`);
+		}
+	}
+
+	// Store the current version
+	await context.globalState.update('schemaForge.version', currentVersion);
+}
+
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Schema Forge extension activated');
 
-	const disposable = vscode.commands.registerCommand('schemaForge.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello World from Schema Forge.');
-	});
+	// Check if extension was updated and show README
+	checkExtensionUpdate(context);
 
 	const initDisposable = vscode.commands.registerCommand('schemaForge.init', initCommand);
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
@@ -65,7 +92,6 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(
-		disposable,
 		initDisposable,
 		generateDisposable,
 		diffDisposable,

@@ -2,9 +2,15 @@
 
 Official VS Code extension for Schema Forge DSL (`.sf`).
 
+## Resources
+
 - Extension repo: <https://github.com/xubylele/schema-forge-vscode>
 - SchemaForge CLI repo: <https://github.com/xubylele/schema-forge>
-- SchemaForge CLI npm package: <https://www.npmjs.com/package/@xubylele/schema-forge>
+
+## npm Packages
+
+- [@xubylele/schema-forge](https://www.npmjs.com/package/@xubylele/schema-forge) - CLI tool for database schema management
+- [@xubylele/schema-forge-core](https://www.npmjs.com/package/@xubylele/schema-forge-core) - Core engine for schema parsing, diffing, and SQL generation
 
 ## Features
 

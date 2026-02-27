@@ -1,16 +1,11 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": [
-    "@changesets/cli/changelog",
-    {
-      "repo": "xubylele/schema-forge-vscode"
-    }
-  ],
+  "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
+  "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
   "linked": [],
-  "access": "public",
-  "baseBranch": "pre-release",
+  "access": "restricted",
+  "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": []
 }
