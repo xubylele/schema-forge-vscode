@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- - Update README.md with clearer installation instructions and quick start guide.
+  - Update CONTRIBUTING.md to emphasize branch policies and development setup.
+
 ## 0.1.1
 
 ### Patch Changes
