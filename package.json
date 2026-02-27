@@ -26,7 +26,8 @@
   },
   "activationEvents": [
     "onLanguage:schema-forge",
-    "onCommand:schemaForge.helloWorld"
+    "onCommand:schemaForge.helloWorld",
+    "onCommand:schemaForge.init"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -54,10 +55,15 @@
         "language": "schema-forge",
         "path": "./snippets/schemaforge.json"
       }
+    ],
     "commands": [
       {
         "command": "schemaForge.helloWorld",
         "title": "Schema Forge: Hello World"
+      },
+      {
+        "command": "schemaForge.init",
+        "title": "Schema Forge: Init"
       }
     ]
   },
