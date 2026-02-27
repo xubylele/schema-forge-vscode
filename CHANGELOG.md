@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- ce5019e: \* add author to package.json
+
 ## 0.1.0
 
 ### Minor Changes
