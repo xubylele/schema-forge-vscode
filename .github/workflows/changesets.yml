@@ -9,6 +9,7 @@ on:
 
 jobs:
   check:
+    name: Check pending changesets
     runs-on: ubuntu-latest
 
     steps:

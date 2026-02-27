@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-lint:
+    name: Build, Lint, and Package
     runs-on: ubuntu-latest
 
     steps:

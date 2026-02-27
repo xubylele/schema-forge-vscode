@@ -12,6 +12,7 @@ on:
 
 jobs:
   release:
+    name: Build, Lint, Package, and Publish
     runs-on: ubuntu-latest
     permissions:
       contents: read
