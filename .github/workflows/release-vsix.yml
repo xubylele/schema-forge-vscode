@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - pre-release
     paths:
       - package.json
       - CHANGELOG.md
