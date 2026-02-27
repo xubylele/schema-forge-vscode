@@ -3,8 +3,7 @@ name: Changesets Check
 on:
   pull_request:
     branches:
-      - pre-release
-      - main
+      - develop
 
 jobs:
   check:
