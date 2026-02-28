@@ -23,7 +23,8 @@ const esbuildProblemMatcherPlugin = {
 };
 
 async function main() {
-  const context = await esbuild.context({
+  // Build extension entry point
+  const extensionContext = await esbuild.context({
     entryPoints: ['src/extension.ts'],
     bundle: true,
     format: 'cjs',
@@ -37,13 +38,64 @@ async function main() {
     plugins: [esbuildProblemMatcherPlugin]
   });
 
+  // Build worker entry point
+  const workerContext = await esbuild.context({
+    entryPoints: ['src/core/parser.worker.ts'],
+    bundle: true,
+    format: 'cjs',
+    platform: 'node',
+    target: 'node18',
+    sourcemap: true,
+    sourcesContent: false,
+    outfile: 'dist/parser.worker.js',
+    external: ['vscode'],
+    logLevel: 'silent',
+    plugins: [esbuildProblemMatcherPlugin]
+  });
+
+  // Build test runner
+  const testContext = await esbuild.context({
+    entryPoints: [
+      'src/test/runTest.ts',
+      'src/test/suite/index.ts',
+      'src/test/extension.test.ts',
+      'src/test/suite/errors.test.ts',
+      'src/test/suite/adapter.test.ts',
+      'src/test/suite/workspace.test.ts',
+      'src/test/suite/output.test.ts'
+    ],
+    bundle: true,
+    format: 'cjs',
+    platform: 'node',
+    target: 'node18',
+    sourcemap: true,
+    sourcesContent: false,
+    outdir: 'dist/test',
+    outbase: 'src',
+    external: ['vscode', 'mocha', '@vscode/test-electron'],
+    logLevel: 'silent',
+    plugins: [esbuildProblemMatcherPlugin]
+  });
+
   if (watch) {
-    await context.watch();
+    await Promise.all([
+      extensionContext.watch(), 
+      workerContext.watch(),
+      testContext.watch()
+    ]);
     return;
   }
 
-  await context.rebuild();
-  await context.dispose();
+  await Promise.all([
+    extensionContext.rebuild(), 
+    workerContext.rebuild(),
+    testContext.rebuild()
+  ]);
+  await Promise.all([
+    extensionContext.dispose(), 
+    workerContext.dispose(),
+    testContext.dispose()
+  ]);
 }
 
 main().catch((error) => {
