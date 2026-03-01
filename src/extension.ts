@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import { diffCommand } from './commands/diff';
 import { generateCommand } from './commands/generate';
 import { initCommand } from './commands/init';
+import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
 import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
 import { createHoverProvider } from './features/hover/hoverProvider';
 import { logToOutput } from './output';
@@ -107,7 +108,12 @@ export function activate(context: vscode.ExtensionContext) {
 		documentOpenDisposable,
 		syntaxDiagnosticsProvider,
 		vscode.languages.registerHoverProvider({ language: 'schema-forge' }, hoverProvider),
-		hoverProvider
+		hoverProvider,
+		vscode.languages.registerCodeActionsProvider(
+			{ language: 'schema-forge' },
+			new AddPrimaryKeyCodeActionProvider(),
+			{ providedCodeActionKinds: AddPrimaryKeyCodeActionProvider.providedCodeActionKinds }
+		)
 	);
 }
 
