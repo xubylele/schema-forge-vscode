@@ -62,7 +62,8 @@ async function main() {
       'src/test/suite/errors.test.ts',
       'src/test/suite/adapter.test.ts',
       'src/test/suite/workspace.test.ts',
-      'src/test/suite/output.test.ts'
+      'src/test/suite/output.test.ts',
+      'src/test/suite/semanticDiagnostics.test.ts'
     ],
     bundle: true,
     format: 'cjs',
@@ -79,7 +80,7 @@ async function main() {
 
   if (watch) {
     await Promise.all([
-      extensionContext.watch(), 
+      extensionContext.watch(),
       workerContext.watch(),
       testContext.watch()
     ]);
@@ -87,12 +88,12 @@ async function main() {
   }
 
   await Promise.all([
-    extensionContext.rebuild(), 
+    extensionContext.rebuild(),
     workerContext.rebuild(),
     testContext.rebuild()
   ]);
   await Promise.all([
-    extensionContext.dispose(), 
+    extensionContext.dispose(),
     workerContext.dispose(),
     testContext.dispose()
   ]);

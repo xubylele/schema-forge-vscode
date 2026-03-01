@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { parseSchemaContent } from '../../core/adapter';
 import { ExtensionError, normalizeError } from '../../core/errors';
+import { findingsToVscodeDiagnostics, validateSemantic } from './semanticDiagnostics';
 
 /**
  * Simple debounce utility function
@@ -123,10 +124,12 @@ export class SyntaxDiagnosticsProvider {
       const result = await parseSchemaContent(source);
 
       if (result.ok) {
-        // No errors, clear diagnostics for this document
-        this.diagnosticCollection.set(uri, []);
+        // Parse succeeded: run semantic validation on the AST
+        const semanticFindings = validateSemantic(result.ast, source);
+        const semanticDiagnostics = findingsToVscodeDiagnostics(semanticFindings);
+        this.diagnosticCollection.set(uri, semanticDiagnostics);
       } else {
-        // Convert error to diagnostic
+        // Parse failed: report syntax error
         const diagnostic = errorToDiagnostic(result.error, document);
         this.diagnosticCollection.set(uri, [diagnostic]);
       }
