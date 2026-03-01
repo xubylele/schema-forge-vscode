@@ -5,6 +5,10 @@ import { diffCommand } from './commands/diff';
 import { generateCommand } from './commands/generate';
 import { initCommand } from './commands/init';
 import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
+import {
+	ConvertToUuidPkCodeActionProvider,
+	registerConvertToUuidPkCommand,
+} from './features/codeActions/convertToUuidPkFix';
 import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
 import { createHoverProvider } from './features/hover/hoverProvider';
 import { logToOutput } from './output';
@@ -83,6 +87,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const initDisposable = vscode.commands.registerCommand('schemaForge.init', initCommand);
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
 	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', diffCommand);
+	const convertToUuidPkCommandDisposable = registerConvertToUuidPkCommand(context);
 
 	// Initialize syntax diagnostics provider
 	const syntaxDiagnosticsProvider = new SyntaxDiagnosticsProvider();
@@ -105,6 +110,7 @@ export function activate(context: vscode.ExtensionContext) {
 		initDisposable,
 		generateDisposable,
 		diffDisposable,
+		convertToUuidPkCommandDisposable,
 		documentOpenDisposable,
 		syntaxDiagnosticsProvider,
 		vscode.languages.registerHoverProvider({ language: 'schema-forge' }, hoverProvider),
@@ -113,6 +119,11 @@ export function activate(context: vscode.ExtensionContext) {
 			{ language: 'schema-forge' },
 			new AddPrimaryKeyCodeActionProvider(),
 			{ providedCodeActionKinds: AddPrimaryKeyCodeActionProvider.providedCodeActionKinds }
+		),
+		vscode.languages.registerCodeActionsProvider(
+			{ language: 'schema-forge' },
+			new ConvertToUuidPkCodeActionProvider(),
+			{ providedCodeActionKinds: ConvertToUuidPkCodeActionProvider.providedCodeActionKinds }
 		)
 	);
 }
