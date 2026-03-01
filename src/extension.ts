@@ -5,6 +5,7 @@ import { diffCommand } from './commands/diff';
 import { generateCommand } from './commands/generate';
 import { initCommand } from './commands/init';
 import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
+import { createHoverProvider } from './features/hover/hoverProvider';
 import { logToOutput } from './output';
 
 /**
@@ -86,6 +87,9 @@ export function activate(context: vscode.ExtensionContext) {
 	const syntaxDiagnosticsProvider = new SyntaxDiagnosticsProvider();
 	syntaxDiagnosticsProvider.registerListeners();
 
+	// Initialize hover provider
+	const hoverProvider = createHoverProvider();
+
 	// Auto-detect missing project structure on .sf file open
 	const documentOpenDisposable = vscode.workspace.onDidOpenTextDocument(async (document) => {
 		if (document.languageId === 'schema-forge') {
@@ -101,7 +105,9 @@ export function activate(context: vscode.ExtensionContext) {
 		generateDisposable,
 		diffDisposable,
 		documentOpenDisposable,
-		syntaxDiagnosticsProvider
+		syntaxDiagnosticsProvider,
+		vscode.languages.registerHoverProvider({ language: 'schema-forge' }, hoverProvider),
+		hoverProvider
 	);
 }
 

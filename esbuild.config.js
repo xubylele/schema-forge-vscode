@@ -63,7 +63,8 @@ async function main() {
       'src/test/suite/adapter.test.ts',
       'src/test/suite/workspace.test.ts',
       'src/test/suite/output.test.ts',
-      'src/test/suite/semanticDiagnostics.test.ts'
+      'src/test/suite/semanticDiagnostics.test.ts',
+      'src/test/suite/hoverProvider.test.ts'
     ],
     bundle: true,
     format: 'cjs',
