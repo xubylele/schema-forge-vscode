@@ -1,9 +1,10 @@
-import * as vscode from 'vscode';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { initCommand } from './commands/init';
-import { generateCommand } from './commands/generate';
+import * as vscode from 'vscode';
 import { diffCommand } from './commands/diff';
+import { generateCommand } from './commands/generate';
+import { initCommand } from './commands/init';
+import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
 import { logToOutput } from './output';
 
 /**
@@ -81,6 +82,10 @@ export function activate(context: vscode.ExtensionContext) {
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
 	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', diffCommand);
 
+	// Initialize syntax diagnostics provider
+	const syntaxDiagnosticsProvider = new SyntaxDiagnosticsProvider();
+	syntaxDiagnosticsProvider.registerListeners();
+
 	// Auto-detect missing project structure on .sf file open
 	const documentOpenDisposable = vscode.workspace.onDidOpenTextDocument(async (document) => {
 		if (document.languageId === 'schema-forge') {
@@ -95,7 +100,8 @@ export function activate(context: vscode.ExtensionContext) {
 		initDisposable,
 		generateDisposable,
 		diffDisposable,
-		documentOpenDisposable
+		documentOpenDisposable,
+		syntaxDiagnosticsProvider
 	);
 }
 

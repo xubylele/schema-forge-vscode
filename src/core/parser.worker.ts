@@ -1,4 +1,5 @@
 import { DatabaseSchema, parseSchema } from '@xubylele/schema-forge-core';
+import { parentPort } from 'worker_threads';
 
 /**
  * Message structure for worker communication
@@ -25,40 +26,42 @@ type ResultMessage = ParseResultMessage | ParseErrorMessage;
 /**
  * Handle messages from the main thread
  */
-self.onmessage = (event: MessageEvent<ParseMessage>) => {
-  const { type, source } = event.data;
+if (parentPort) {
+  parentPort.on('message', (event: ParseMessage) => {
+    const { type, source } = event;
 
-  if (type !== 'parse') {
-    const errorMsg: ParseErrorMessage = {
-      type: 'error',
-      ok: false,
-      message: 'Invalid message type',
-    };
-    self.postMessage(errorMsg);
-    return;
-  }
-
-  try {
-    const ast = parseSchema(source);
-    const result: ParseResultMessage = {
-      type: 'result',
-      ok: true,
-      ast,
-    };
-    self.postMessage(result);
-  } catch (err) {
-    let message = 'Unknown parsing error';
-    if (err instanceof Error) {
-      message = err.message;
-    } else if (typeof err === 'string') {
-      message = err;
+    if (type !== 'parse') {
+      const errorMsg: ParseErrorMessage = {
+        type: 'error',
+        ok: false,
+        message: 'Invalid message type',
+      };
+      parentPort?.postMessage(errorMsg);
+      return;
     }
 
-    const errorMsg: ParseErrorMessage = {
-      type: 'error',
-      ok: false,
-      message,
-    };
-    self.postMessage(errorMsg);
-  }
-};
+    try {
+      const ast = parseSchema(source);
+      const result: ParseResultMessage = {
+        type: 'result',
+        ok: true,
+        ast,
+      };
+      parentPort?.postMessage(result);
+    } catch (err) {
+      let message = 'Unknown parsing error';
+      if (err instanceof Error) {
+        message = err.message;
+      } else if (typeof err === 'string') {
+        message = err;
+      }
+
+      const errorMsg: ParseErrorMessage = {
+        type: 'error',
+        ok: false,
+        message,
+      };
+      parentPort?.postMessage(errorMsg);
+    }
+  });
+}

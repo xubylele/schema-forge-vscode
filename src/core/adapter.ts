@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { Worker } from 'worker_threads';
 import { ParseResult, normalizeError } from './errors';
 
 /**
@@ -9,7 +10,7 @@ import { ParseResult, normalizeError } from './errors';
  */
 function createWorker(workerPath: string): Worker | null {
   try {
-    // Note: In VS Code extension runtime (Node.js), we'll use Worker API
+    // Note: In VS Code extension runtime (Node.js), we use worker_threads
     return new Worker(workerPath);
   } catch (err) {
     console.error('Failed to create worker:', err);
@@ -129,8 +130,8 @@ async function parseSchemaWithWorker(
       }
 
       // Handle worker messages
-      worker.onmessage = (event: MessageEvent) => {
-        const { type, ok, ast, message } = event.data;
+      worker.on('message', (data: any) => {
+        const { type, ok, ast, message } = data;
 
         if (type === 'result' && ok === true) {
           resolveOnce({ ok: true, ast });
@@ -141,13 +142,21 @@ async function parseSchemaWithWorker(
           const error = normalizeError('Invalid response from parser worker');
           resolveOnce({ ok: false, error });
         }
-      };
+      });
 
       // Handle worker errors
-      worker.onerror = (workerError: ErrorEvent) => {
+      worker.on('error', (workerError: Error) => {
         const error = normalizeError(workerError.message || 'Worker error');
         resolveOnce({ ok: false, error });
-      };
+      });
+
+      // Handle worker exit
+      worker.on('exit', (code: number) => {
+        if (!resolved && code !== 0) {
+          const error = normalizeError(`Worker exited with code ${code}`);
+          resolveOnce({ ok: false, error });
+        }
+      });
 
       // Send parse message
       worker.postMessage({ type: 'parse', source });
