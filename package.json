@@ -83,7 +83,7 @@
     ]
   },
   "dependencies": {
-    "@xubylele/schema-forge-core": "^1.0.5"
+    "@xubylele/schema-forge-core": "^1.1.0"
   },
   "scripts": {
     "build": "node esbuild.config.js",
