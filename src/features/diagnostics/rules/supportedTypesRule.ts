@@ -6,7 +6,7 @@
 
 import { DatabaseSchema } from '@xubylele/schema-forge-core';
 import * as vscode from 'vscode';
-import { SEMANTIC_CODES } from './codes';
+import { DIAGNOSTIC_CODES } from '../codes';
 import { findColumnRange, findTableEndLine, findTableRange } from './ranges';
 import { SemanticFinding } from './types';
 
@@ -81,7 +81,7 @@ export function validateSupportedTypes(
         const colRange = findColumnRange(source, col.name, tableRange.line, tableEndLine);
 
         findings.push({
-          code: SEMANTIC_CODES.UNKNOWN_TYPE,
+          code: DIAGNOSTIC_CODES.SF_UNKNOWN_TYPE,
           message: `Unknown or unsupported column type '${col.type}' in column '${col.name}'. Supported types are: uuid, varchar, varchar(n), text, int, bigint, numeric(m,n), boolean, timestamptz, date.`,
           severity: vscode.DiagnosticSeverity.Error,
           line: colRange.line,

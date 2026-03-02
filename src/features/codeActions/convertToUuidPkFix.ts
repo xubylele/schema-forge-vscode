@@ -1,7 +1,7 @@
 import type { DatabaseSchema, Table } from '@xubylele/schema-forge-core';
 import * as vscode from 'vscode';
 import { parseSchemaContent } from '../../core/adapter';
-import { SEMANTIC_CODES } from '../diagnostics/rules/codes';
+import { DIAGNOSTIC_CODES } from '../diagnostics/codes';
 import { findTableEndLine, findTableRange } from '../diagnostics/rules/ranges';
 
 export const CONVERT_TO_UUID_PK_COMMAND = 'schemaForge.convertColumnToUuidPk';
@@ -17,7 +17,7 @@ export class ConvertToUuidPkCodeActionProvider implements vscode.CodeActionProvi
     context: vscode.CodeActionContext
   ): Promise<vscode.CodeAction[]> {
     const noPkDiagnostics = context.diagnostics.filter(
-      d => d.code === SEMANTIC_CODES.TABLE_NO_PRIMARY_KEY
+      d => d.code === DIAGNOSTIC_CODES.SF_NO_PK
     );
 
     if (noPkDiagnostics.length === 0) {

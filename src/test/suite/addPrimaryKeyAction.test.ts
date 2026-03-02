@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { AddPrimaryKeyCodeActionProvider } from '../../features/codeActions/addPrimaryKeyAction';
-import { SEMANTIC_CODES } from '../../features/diagnostics/rules/codes';
+import { DIAGNOSTIC_CODES } from '../../features/diagnostics/codes';
 
 /**
  * NOTE: These tests validate the code action provider structure and behavior.
@@ -47,7 +47,7 @@ suite('Add Primary Key Code Action Test Suite', () => {
       message,
       vscode.DiagnosticSeverity.Error
     );
-    diagnostic.code = SEMANTIC_CODES.TABLE_NO_PRIMARY_KEY;
+    diagnostic.code = DIAGNOSTIC_CODES.SF_NO_PK;
     return diagnostic;
   }
 

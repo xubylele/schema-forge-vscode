@@ -5,7 +5,7 @@
 
 import { DatabaseSchema } from '@xubylele/schema-forge-core';
 import * as vscode from 'vscode';
-import { SEMANTIC_CODES } from './codes';
+import { DIAGNOSTIC_CODES } from '../codes';
 import { findDefaultNowRange, findTableEndLine, findTableRange } from './ranges';
 import { SemanticFinding } from './types';
 
@@ -27,7 +27,7 @@ export function validateDefaultNowType(
           const range = findDefaultNowRange(source, tableRange.line, tableEndLine);
 
           findings.push({
-            code: SEMANTIC_CODES.DEFAULT_NOW_WRONG_TYPE,
+            code: DIAGNOSTIC_CODES.SF_INVALID_DEFAULT_NOW,
             message: `Column '${col.name}' has type '${col.type}' but uses 'default now()'. The 'now()' function returns a timestamp and should only be used with 'timestamptz' columns.`,
             severity: vscode.DiagnosticSeverity.Warning,
             line: range.line,

@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import { SemanticCode } from './codes';
+import { DiagnosticCode } from '../codes';
 
 /**
  * Represents a semantic validation finding
  * Pure data structure, no dependencies on AST or document
  */
 export interface SemanticFinding {
-  code: SemanticCode;
+  code: DiagnosticCode;
   message: string;
   severity: vscode.DiagnosticSeverity;
   /**

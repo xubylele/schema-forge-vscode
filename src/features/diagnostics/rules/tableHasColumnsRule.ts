@@ -5,7 +5,7 @@
 
 import { DatabaseSchema } from '@xubylele/schema-forge-core';
 import * as vscode from 'vscode';
-import { SEMANTIC_CODES } from './codes';
+import { DIAGNOSTIC_CODES } from '../codes';
 import { findTableRange } from './ranges';
 import { SemanticFinding } from './types';
 
@@ -21,7 +21,7 @@ export function validateTableHasColumns(
       const range = findTableRange(source, tableName);
 
       findings.push({
-        code: SEMANTIC_CODES.TABLE_NO_COLUMNS,
+        code: DIAGNOSTIC_CODES.SF_NO_COLUMNS,
         message: `Table '${tableName}' has no columns. A table must define at least one column.`,
         severity: vscode.DiagnosticSeverity.Error,
         line: range.line,

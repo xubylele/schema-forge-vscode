@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { parseSchemaContent } from '../../core/adapter';
 import { ExtensionError, normalizeError } from '../../core/errors';
+import { DIAGNOSTIC_CODES } from './codes';
 import { findingsToVscodeDiagnostics, validateSemantic } from './semanticDiagnostics';
 
 /**
@@ -87,6 +88,7 @@ function errorToDiagnostic(error: ExtensionError, document: vscode.TextDocument)
     vscode.DiagnosticSeverity.Error
   );
   diagnostic.source = 'Schema Forge';
+  diagnostic.code = DIAGNOSTIC_CODES.SF_SYNTAX_ERROR;
 
   return diagnostic;
 }

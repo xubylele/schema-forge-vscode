@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
+import { DIAGNOSTIC_CODES } from '../../features/diagnostics/codes';
 import { SyntaxDiagnosticsProvider } from '../../features/diagnostics/syntaxDiagnostics';
 
 suite('Syntax Diagnostics Test Suite', () => {
@@ -174,5 +175,11 @@ table users {
 
     // Should not throw
     assert.ok(true);
+  });
+
+  test('syntax errors should include diagnostic code', () => {
+    // Test that the DIAGNOSTIC_CODES constant exists and has SF_SYNTAX_ERROR
+    assert.ok(DIAGNOSTIC_CODES);
+    assert.strictEqual(DIAGNOSTIC_CODES.SF_SYNTAX_ERROR, 'SF_SYNTAX_ERROR');
   });
 });

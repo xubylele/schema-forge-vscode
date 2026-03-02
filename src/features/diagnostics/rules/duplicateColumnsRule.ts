@@ -5,7 +5,7 @@
 
 import { DatabaseSchema } from '@xubylele/schema-forge-core';
 import * as vscode from 'vscode';
-import { SEMANTIC_CODES } from './codes';
+import { DIAGNOSTIC_CODES } from '../codes';
 import { findColumnRange, findTableEndLine, findTableRange } from './ranges';
 import { SemanticFinding } from './types';
 
@@ -36,7 +36,7 @@ export function validateDuplicateColumns(
         const colRange = findColumnRange(source, dupName, tableRange.line, tableEndLine);
 
         findings.push({
-          code: SEMANTIC_CODES.DUPLICATE_COLUMN_NAME,
+          code: DIAGNOSTIC_CODES.SF_DUPLICATE_COLUMN,
           message: `Duplicate column name '${dupName}' in table '${tableName}'.`,
           severity: vscode.DiagnosticSeverity.Error,
           line: colRange.line,

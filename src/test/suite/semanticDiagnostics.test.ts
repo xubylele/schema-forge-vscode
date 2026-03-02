@@ -1,7 +1,7 @@
 import { ColumnType, DatabaseSchema } from '@xubylele/schema-forge-core';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
-import { SEMANTIC_CODES } from '../../features/diagnostics/rules/codes';
+import { DIAGNOSTIC_CODES } from '../../features/diagnostics/codes';
 import { findingsToVscodeDiagnostics, validateSemantic } from '../../features/diagnostics/semanticDiagnostics';
 
 suite('Semantic Diagnostics Test Suite', () => {
@@ -37,7 +37,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     // Table with zero columns triggers both "no columns" and "no primary key" rules
     assert.strictEqual(findings.length, 2);
-    const noColumnsFind = findings.find((f) => f.code === SEMANTIC_CODES.TABLE_NO_COLUMNS);
+    const noColumnsFind = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_NO_COLUMNS);
     assert.ok(noColumnsFind);
     assert.strictEqual(noColumnsFind.severity, vscode.DiagnosticSeverity.Error);
   });
@@ -61,7 +61,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const noPkFinding = findings.find((f) => f.code === SEMANTIC_CODES.TABLE_NO_PRIMARY_KEY);
+    const noPkFinding = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_NO_PK);
     assert.ok(noPkFinding);
     assert.strictEqual(noPkFinding.severity, vscode.DiagnosticSeverity.Error);
   });
@@ -85,7 +85,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const multiplePkFinding = findings.find((f) => f.code === SEMANTIC_CODES.TABLE_MULTIPLE_PRIMARY_KEYS);
+    const multiplePkFinding = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_MULTIPLE_PK);
     assert.ok(multiplePkFinding);
     assert.strictEqual(multiplePkFinding.severity, vscode.DiagnosticSeverity.Warning);
   });
@@ -112,7 +112,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const dupFinding = findings.find((f) => f.code === SEMANTIC_CODES.DUPLICATE_COLUMN_NAME);
+    const dupFinding = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_DUPLICATE_COLUMN);
     assert.ok(dupFinding);
     assert.strictEqual(dupFinding.severity, vscode.DiagnosticSeverity.Error);
     assert.match(dupFinding.message, /Duplicate column name 'name'/);
@@ -138,7 +138,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const unknownTypeFinding = findings.find((f) => f.code === SEMANTIC_CODES.UNKNOWN_TYPE);
+    const unknownTypeFinding = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_UNKNOWN_TYPE);
     assert.ok(unknownTypeFinding);
     assert.strictEqual(unknownTypeFinding.severity, vscode.DiagnosticSeverity.Error);
     assert.match(unknownTypeFinding.message, /Unknown or unsupported column type 'json'/);
@@ -164,7 +164,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const unknownTypeFindings = findings.filter((f) => f.code === SEMANTIC_CODES.UNKNOWN_TYPE);
+    const unknownTypeFindings = findings.filter((f) => f.code === DIAGNOSTIC_CODES.SF_UNKNOWN_TYPE);
     assert.strictEqual(unknownTypeFindings.length, 0);
   });
 
@@ -188,7 +188,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const unknownTypeFindings = findings.filter((f) => f.code === SEMANTIC_CODES.UNKNOWN_TYPE);
+    const unknownTypeFindings = findings.filter((f) => f.code === DIAGNOSTIC_CODES.SF_UNKNOWN_TYPE);
     assert.strictEqual(unknownTypeFindings.length, 0);
   });
 
@@ -212,7 +212,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const nowTypeFinding = findings.find((f) => f.code === SEMANTIC_CODES.DEFAULT_NOW_WRONG_TYPE);
+    const nowTypeFinding = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_INVALID_DEFAULT_NOW);
     assert.ok(nowTypeFinding);
     assert.strictEqual(nowTypeFinding.severity, vscode.DiagnosticSeverity.Warning);
   });
@@ -237,7 +237,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     const findings = validateSemantic(ast, source);
 
-    const nowTypeFindings = findings.filter((f) => f.code === SEMANTIC_CODES.DEFAULT_NOW_WRONG_TYPE);
+    const nowTypeFindings = findings.filter((f) => f.code === DIAGNOSTIC_CODES.SF_INVALID_DEFAULT_NOW);
     assert.strictEqual(nowTypeFindings.length, 0);
   });
 
@@ -257,7 +257,7 @@ suite('Semantic Diagnostics Test Suite', () => {
 
     assert.strictEqual(diagnostics.length, findings.length);
     assert.ok(diagnostics[0].code);
-    assert.strictEqual(diagnostics[0].code, SEMANTIC_CODES.TABLE_NO_COLUMNS);
+    assert.strictEqual(diagnostics[0].code, DIAGNOSTIC_CODES.SF_NO_COLUMNS);
     assert.strictEqual(diagnostics[0].source, 'Schema Forge');
   });
 
@@ -320,8 +320,8 @@ table b {
     const findings = validateSemantic(ast, source);
 
     // Should find: no primary key, wrong type for now()
-    const noPk = findings.find((f) => f.code === SEMANTIC_CODES.TABLE_NO_PRIMARY_KEY);
-    const wrongNowType = findings.find((f) => f.code === SEMANTIC_CODES.DEFAULT_NOW_WRONG_TYPE);
+    const noPk = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_NO_PK);
+    const wrongNowType = findings.find((f) => f.code === DIAGNOSTIC_CODES.SF_INVALID_DEFAULT_NOW);
 
     assert.ok(noPk, 'Should have TABLE_NO_PRIMARY_KEY finding');
     assert.ok(wrongNowType, 'Should have DEFAULT_NOW_WRONG_TYPE finding');
