@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.5
+
+### Patch Changes
+
+- # 🚑 hotfix: install vsce globally and remove unnecessary loglevel from publish command
+
 ## 0.2.4
 
 ### Patch Changes
