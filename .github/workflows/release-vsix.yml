@@ -41,16 +41,13 @@ jobs:
       - name: Package VSIX
         run: npx vsce package
 
+      - name: Get VSIX filename
+        id: vsix
+        run: echo "file=$(ls *.vsix)" >> $GITHUB_OUTPUT
+
       - name: Publish VS Code Stable
         if: github.ref_name == 'master'
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 15
-          max_attempts: 5
-          retry_wait_seconds: 60
-          command: npx vsce publish --pat "${{ secrets.VSCE_PAT }}" --no-update-package-json --packagePath "*.vsix"
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
+        run: npx vsce publish --pat "${{ secrets.VSCE_PAT }}" --no-update-package-json --packagePath "${{ steps.vsix.outputs.file }}"
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4

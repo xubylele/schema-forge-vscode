@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.6
+
+### Patch Changes
+
+- # 🚑 hotfix: simplify VS Code publishing step by removing retry action and directly using VSIX filename
+
 ## 0.2.5
 
 ### Patch Changes
