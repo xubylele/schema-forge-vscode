@@ -94,7 +94,7 @@
     "package:vsix": "npx vsce package",
     "publish:stable": "npx vsce publish",
     "publish:pre-release": "npx vsce publish --pre-release",
-    "lint": "eslint .",
+    "lint": "NODE_OPTIONS=--max-old-space-size=4096 eslint .",
     "pretest": "npm run build",
     "test": "node ./dist/test/test/runTest.js",
     "test:unit": "npm run build && node ./dist/test/runTest.js"

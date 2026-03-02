@@ -127,8 +127,12 @@ export function findTableEndLine(
   for (let i = startLine; i < lines.length; i++) {
     const line = lines[i];
     for (const char of line) {
-      if (char === '{') braceDepth++;
-      if (char === '}') braceDepth--;
+      if (char === '{') {
+        braceDepth++;
+      }
+      if (char === '}') {
+        braceDepth--;
+      }
       if (braceDepth === 0 && i > startLine) {
         return i;
       }
