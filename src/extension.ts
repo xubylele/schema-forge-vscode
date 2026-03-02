@@ -1,9 +1,16 @@
-import * as vscode from 'vscode';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { initCommand } from './commands/init';
-import { generateCommand } from './commands/generate';
+import * as vscode from 'vscode';
 import { diffCommand } from './commands/diff';
+import { generateCommand } from './commands/generate';
+import { initCommand } from './commands/init';
+import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
+import {
+	ConvertToUuidPkCodeActionProvider,
+	registerConvertToUuidPkCommand,
+} from './features/codeActions/convertToUuidPkFix';
+import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
+import { createHoverProvider } from './features/hover/hoverProvider';
 import { logToOutput } from './output';
 
 /**
@@ -80,6 +87,14 @@ export function activate(context: vscode.ExtensionContext) {
 	const initDisposable = vscode.commands.registerCommand('schemaForge.init', initCommand);
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
 	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', diffCommand);
+	const convertToUuidPkCommandDisposable = registerConvertToUuidPkCommand(context);
+
+	// Initialize syntax diagnostics provider
+	const syntaxDiagnosticsProvider = new SyntaxDiagnosticsProvider();
+	syntaxDiagnosticsProvider.registerListeners();
+
+	// Initialize hover provider
+	const hoverProvider = createHoverProvider();
 
 	// Auto-detect missing project structure on .sf file open
 	const documentOpenDisposable = vscode.workspace.onDidOpenTextDocument(async (document) => {
@@ -95,7 +110,21 @@ export function activate(context: vscode.ExtensionContext) {
 		initDisposable,
 		generateDisposable,
 		diffDisposable,
-		documentOpenDisposable
+		convertToUuidPkCommandDisposable,
+		documentOpenDisposable,
+		syntaxDiagnosticsProvider,
+		vscode.languages.registerHoverProvider({ language: 'schema-forge' }, hoverProvider),
+		hoverProvider,
+		vscode.languages.registerCodeActionsProvider(
+			{ language: 'schema-forge' },
+			new AddPrimaryKeyCodeActionProvider(),
+			{ providedCodeActionKinds: AddPrimaryKeyCodeActionProvider.providedCodeActionKinds }
+		),
+		vscode.languages.registerCodeActionsProvider(
+			{ language: 'schema-forge' },
+			new ConvertToUuidPkCodeActionProvider(),
+			{ providedCodeActionKinds: ConvertToUuidPkCodeActionProvider.providedCodeActionKinds }
+		)
 	);
 }
 
