@@ -45,7 +45,7 @@ jobs:
           timeout_minutes: 15
           max_attempts: 5
           retry_wait_seconds: 60
-          command: npx vsce publish --pat ${{ secrets.VSCE_PAT }} --no-update-package-json --no-wait-for-warnings
+          command: npx vsce publish --loglevel trace --pat ${{ secrets.VSCE_PAT }} --no-update-package-json --packagePath "*.vsix"
         env:
           NODE_OPTIONS: --max-old-space-size=4096
 
