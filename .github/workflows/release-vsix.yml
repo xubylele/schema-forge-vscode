@@ -42,12 +42,13 @@ jobs:
         if: github.ref_name == 'master'
         uses: nick-invision/retry@v3
         with:
-          timeout_minutes: 5
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: npx vsce publish --timeout 120000
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_wait_seconds: 60
+          command: npx vsce publish
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
