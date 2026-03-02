@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - develop
 
 jobs:
   build-lint:
@@ -25,6 +26,9 @@ jobs:
 
       - name: Build extension
         run: npm run build
+
+      - name: Run tests
+        run: npm test
 
       - name: Lint
         run: npm run lint
