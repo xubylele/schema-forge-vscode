@@ -1,5 +1,75 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- 22f5331: # ✨ feat: implement syntax diagnostics provider for schema validation
+
+  - Added diagnostics provider to validate schema syntax in real time
+  - Integrated with VSCode diagnostics API to display errors and warnings inline
+  - Improved developer experience with immediate feedback on schema issues
+
+- 22f5331: # ✨ feat: add schema parsing functionality with Web Worker support
+
+  - Introduced `parseSchemaContent` function in `adapter.ts` to handle schema parsing.
+  - Implemented fallback to synchronous parsing if Web Worker is unavailable.
+  - Created `parser.worker.ts` for handling parsing in a separate thread.
+  - Added error normalization utilities in `errors.ts` for structured error handling.
+  - Updated `package.json` to include new dependencies and scripts for testing.
+  - Added comprehensive unit tests for schema parsing and error handling.
+  - Enhanced test suite structure and documentation for better clarity.
+
+- 22f5331: # ✨ feat: implement hover provider for Schema Forge DSL constructs with tests
+
+  - Added hover provider for Schema Forge DSL constructs
+  - Implemented contextual hover content for improved authoring experience
+  - Added unit tests to cover hover behavior and expected outputs
+
+- 22f5331: # ✨ feat: add semantic validation rules for schema diagnostics
+
+  - Added semantic validation rules to enhance schema diagnostics
+  - Improved error detection beyond syntax validation (e.g. logical inconsistencies)
+  - Extended diagnostics provider to surface more meaningful validation feedback
+
+- 22f5331: # ✨ feat: add Convert To UUID PK code action provider with tests
+
+  - Added code action provider to convert primary keys to UUID
+  - Enabled quick fix for standardizing primary key types
+  - Integrated with diagnostics to suggest conversion where applicable
+  - Added unit tests to ensure correct behavior of the code action
+
+- 22f5331: # ✨ feat: add code action provider for adding primary keys to tables
+
+  - Added code action provider to suggest adding primary keys to tables
+  - Enabled quick fixes to improve schema completeness and correctness
+  - Integrated with diagnostics to surface relevant code actions
+
+### Patch Changes
+
+- 22f5331: # ♻️ refactor: centralize diagnostic codes into a single module and update references
+
+  - Moved diagnostic codes to a centralized module for better maintainability
+  - Updated all references across diagnostics, providers, and tests
+  - Improved consistency and readability of diagnostic handling
+
+- 22f5331: # 🧪 Test: add comprehensive coverage for database schema validation rules
+
+  - Added tests for supported types rule (base types, parameterized types, and invalid types)
+  - Added tests for table has columns rule, including proper errors for zero-column tables
+  - Added tests for table primary key rules (missing PK, multiple PKs, and edge cases)
+
+- 22f5331: # ✨ feat: add unit tests for Add Primary Key code action provider
+
+  - Added unit tests for the Add Primary Key code action provider
+  - Improved test coverage and reliability of code actions
+
+- 22f5331: # ♻️ refactor: update CI workflows to remove pre-release branch and adjust changeset validation
+
+  - Removed pre-release branch handling from CI workflows
+  - Updated changeset validation to align with new release flow
+  - Simplified and improved consistency of CI configuration
+
 ## 0.1.3
 
 ### Patch Changes

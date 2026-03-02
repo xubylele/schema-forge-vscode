@@ -38,12 +38,6 @@ jobs:
       - name: Package VSIX
         run: npx vsce package
 
-      - name: Publish VS Code Pre-release
-        if: github.ref_name == 'pre-release'
-        run: npx vsce publish --pre-release
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-
       - name: Publish VS Code Stable
         if: github.ref_name == 'master'
         run: npx vsce publish
