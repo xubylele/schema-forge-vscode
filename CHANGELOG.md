@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.7
+
+### Patch Changes
+
+- # 🚑 hotfix: add ovsx installation and publishing step for Open VSX
+
 ## 0.2.6
 
 ### Patch Changes
