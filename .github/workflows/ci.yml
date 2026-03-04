@@ -10,6 +10,8 @@ jobs:
   build-lint:
     name: Build, Lint, and Package
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout
@@ -24,23 +26,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install xvfb (for headless testing)
-        run: sudo apt-get install -y xvfb
+      - name: Install tools (vsce + xvfb)
+        run: |
+          npm install -g @vscode/vsce
+          sudo apt-get update
+          sudo apt-get install -y xvfb
 
       - name: Build extension
         run: npm run build
 
-      - name: Run tests
-        run: xvfb-run -a npm test
+      - name: Run tests (headless)
+        run: xvfb-run -a npm run test
 
       - name: Lint
         run: npm run lint
 
       - name: Package VSIX
-        run: npx vsce package
+        run: vsce package
+
+      - name: Get VSIX filename
+        id: vsix
+        run: echo "file=$(ls *.vsix)" >> $GITHUB_OUTPUT
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: schema-forge-vsix
-          path: "*.vsix"
+          name: schema-forge-vsix-${{ github.event.pull_request.number }}-${{ github.sha }}
+          path: "${{ steps.vsix.outputs.file }}"
