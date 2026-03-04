@@ -1,10 +1,20 @@
 # Changelog
 
+## 0.2.9
+
+### Patch Changes
+
+- ✨ chore: update README and package files for Open VSX support and dependency refresh
+
+  - Updated README documentation to include Open VSX publishing/support details.
+  - Adjusted package/config files to support Open VSX workflows.
+  - Refreshed and aligned dependencies across the project.
+
 ## 0.2.8
 
 ### Patch Changes
 
-- # ✨ add workflows for VS Code and Open VSX releases; remove obsolete VSIX workflow
+- add workflows for VS Code and Open VSX releases; remove obsolete VSIX workflow
 
 ## 0.2.7
 

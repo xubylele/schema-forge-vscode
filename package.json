@@ -6,8 +6,8 @@
     "email": "diazxavier27@gmail.com"
   },
   "displayName": "Schema Forge",
-  "description": "Official VS Code extension for Schema Forge. Provides language support and tooling for the Schema Forge DSL (.sf).",
-  "version": "0.2.8",
+  "description": "Official VS Code and Open VSX extension for Schema Forge. Provides language support and tooling for the Schema Forge DSL (.sf).",
+  "version": "0.2.9",
   "license": "MIT",
   "icon": "icon.png",
   "homepage": "https://github.com/xubylele/schema-forge",
@@ -100,7 +100,7 @@
     "test:unit": "npm run build && node ./dist/test/runTest.js"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
+    "@changesets/cli": "^2.30.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "@types/vscode": "^1.109.0",

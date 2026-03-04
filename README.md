@@ -1,10 +1,12 @@
 # Schema Forge for VS Code
 
-Official VS Code extension for the Schema Forge DSL (`.sf`).
+Official VS Code and Open VSX extension for the Schema Forge DSL (`.sf`).
 
 Build and manage Schema Forge projects directly in your editor with native language support and command integration.
 
 👉 [Install from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Xubylele.schema-forge)
+
+👉 [Install from Open VSX](https://open-vsx.org/extension/xubylele/schema-forge)
 
 ## Why use this extension
 
@@ -169,6 +171,8 @@ The extension contributes:
 ### Marketplace (recommended)
 
 Install directly from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Xubylele.schema-forge).
+
+Install from [Open VSX](https://open-vsx.org/extension/xubylele/schema-forge) (Cursor/VSCodium compatible).
 
 ### Build from source
 
