@@ -11,7 +11,6 @@
   "license": "MIT",
   "icon": "icon.png",
   "homepage": "https://github.com/xubylele/schema-forge",
-  "openvsx": "https://open-vsx.org/extension/xubylele/schema-forge",
   "galleryBanner": {
     "color": "#1e1e1e",
     "theme": "dark"
