@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.8
+
+### Patch Changes
+
+- ✨ chore: update README and package files for Open VSX support and dependency refresh
+
+  - Updated README documentation to include Open VSX publishing/support details.
+  - Adjusted package/config files to support Open VSX workflows.
+  - Refreshed and aligned dependencies across the project.
+
 ## 0.2.7
 
 ### Patch Changes
