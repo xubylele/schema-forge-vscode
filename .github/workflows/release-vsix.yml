@@ -32,6 +32,9 @@ jobs:
       - name: Install vsce
         run: npm install -g @vscode/vsce
 
+      - name: Install ovsx
+        run: npm install -g ovsx
+
       - name: Build extension
         run: npm run build
 
@@ -48,6 +51,10 @@ jobs:
       - name: Publish VS Code Stable
         if: github.ref_name == 'master'
         run: npx vsce publish --pat "${{ secrets.VSCE_PAT }}" --no-update-package-json --packagePath "${{ steps.vsix.outputs.file }}"
+
+      - name: Publish Open VSX (Cursor)
+        if: github.ref_name == 'master'
+        run: ovsx publish "${{ steps.vsix.outputs.file }}" -p "${{ secrets.OVSX_PAT }}"
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
