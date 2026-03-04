@@ -1,0 +1,59 @@
+name: Release Open VSX Extension
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - package.json
+      - CHANGELOG.md
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Build, Lint, Package, and Publish to Open VSX
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: Install ovsx
+        run: npm install -g ovsx
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Package VSIX
+        run: npx vsce package
+
+      - name: Get VSIX filename
+        id: vsix
+        run: echo "file=$(ls *.vsix)" >> $GITHUB_OUTPUT
+
+      - name: Publish Open VSX
+        if: github.ref_name == 'master'
+        run: ovsx publish "${{ steps.vsix.outputs.file }}" -p "${{ secrets.OVSX_PAT }}"
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema-forge-vsix-open-vsx-${{ github.ref_name }}-${{ github.sha }}
+          path: "*.vsix"

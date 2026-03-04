@@ -1,4 +1,4 @@
-name: Release Extension
+name: Release VS Code Extension
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   release:
-    name: Build, Lint, Package, and Publish
+    name: Build, Lint, Package, and Publish to VS Code
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -32,9 +32,6 @@ jobs:
       - name: Install vsce
         run: npm install -g @vscode/vsce
 
-      - name: Install ovsx
-        run: npm install -g ovsx
-
       - name: Build extension
         run: npm run build
 
@@ -52,12 +49,8 @@ jobs:
         if: github.ref_name == 'master'
         run: npx vsce publish --pat "${{ secrets.VSCE_PAT }}" --no-update-package-json --packagePath "${{ steps.vsix.outputs.file }}"
 
-      - name: Publish Open VSX (Cursor)
-        if: github.ref_name == 'master'
-        run: ovsx publish "${{ steps.vsix.outputs.file }}" -p "${{ secrets.OVSX_PAT }}"
-
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: schema-forge-vsix-${{ github.ref_name }}-${{ github.sha }}
+          name: schema-forge-vsix-vscode-${{ github.ref_name }}-${{ github.sha }}
           path: "*.vsix"
