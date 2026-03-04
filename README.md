@@ -13,7 +13,7 @@ Build and manage Schema Forge projects directly in your editor with native langu
 - Command Palette actions for core workflows
 - Automatic prompt to initialize missing Schema Forge project structure
 
-## What's New in [version]
+## What's New in [0.2.0]
 
 **Editor Intelligence** — Introduces semantic analysis and inline documentation powered by [@xubylele/schema-forge-core](https://www.npmjs.com/package/@xubylele/schema-forge-core).
 

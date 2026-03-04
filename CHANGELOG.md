@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.8
+
+### Patch Changes
+
+- # ✨ add workflows for VS Code and Open VSX releases; remove obsolete VSIX workflow
+
 ## 0.2.7
 
 ### Patch Changes
