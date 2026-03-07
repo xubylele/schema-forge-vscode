@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import { diffCommand } from './commands/diff';
 import { diffPreviewCommand } from './commands/diffPreview';
 import { generateCommand } from './commands/generate';
+import { previewSqlCommand } from './commands/previewSql';
 import { initCommand } from './commands/init';
 import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
 import {
@@ -90,6 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
 	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', diffCommand);
 	const diffPreviewDisposable = vscode.commands.registerCommand('schemaForge.diffPreview', diffPreviewCommand);
+	const previewSqlDisposable = vscode.commands.registerCommand('schemaForge.previewSql', previewSqlCommand);
 	const copyDiffPreviewDisposable = vscode.commands.registerCommand(
 		'schemaForge.copyDiffPreviewSql',
 		copyLatestDiffPreviewSql
@@ -118,6 +120,7 @@ export function activate(context: vscode.ExtensionContext) {
 		generateDisposable,
 		diffDisposable,
 		diffPreviewDisposable,
+		previewSqlDisposable,
 		copyDiffPreviewDisposable,
 		convertToUuidPkCommandDisposable,
 		documentOpenDisposable,

@@ -39,7 +39,8 @@
     "onCommand:schemaForge.init",
     "onCommand:schemaForge.generate",
     "onCommand:schemaForge.diff",
-    "onCommand:schemaForge.diffPreview"
+    "onCommand:schemaForge.diffPreview",
+    "onCommand:schemaForge.previewSql"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -84,8 +85,26 @@
       {
         "command": "schemaForge.diffPreview",
         "title": "Schema Forge: Diff Preview"
+      },
+      {
+        "command": "schemaForge.previewSql",
+        "title": "Schema Forge: Preview SQL"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "schemaForge.previewSql",
+          "when": "editorLangId == schema-forge"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "schemaForge.previewSql",
+          "when": "editorLangId == schema-forge"
+        }
+      ]
+    }
   },
   "dependencies": {
     "@xubylele/schema-forge-core": "^1.1.0"
