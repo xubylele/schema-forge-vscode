@@ -2,16 +2,21 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { diffCommand } from './commands/diff';
+import { diffPreviewCommand } from './commands/diffPreview';
 import { generateCommand } from './commands/generate';
 import { initCommand } from './commands/init';
+import { previewSqlCommand } from './commands/previewSql';
 import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
 import {
 	ConvertToUuidPkCodeActionProvider,
 	registerConvertToUuidPkCommand,
 } from './features/codeActions/convertToUuidPkFix';
+import { createCompletionProvider } from './features/completion/completionProvider';
 import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
 import { createHoverProvider } from './features/hover/hoverProvider';
+import { SchemaStatusBar } from './features/statusBar/schemaStatusBar';
 import { logToOutput } from './output';
+import { copyLatestDiffPreviewSql } from './ui/sqlPreviewPanel';
 
 /**
  * Check if schemaforge/ folder exists in the given workspace folder path
@@ -84,9 +89,20 @@ export function activate(context: vscode.ExtensionContext) {
 	// Check if extension was updated and show README
 	checkExtensionUpdate(context);
 
+	const schemaStatusBar = new SchemaStatusBar();
+	schemaStatusBar.register();
+
 	const initDisposable = vscode.commands.registerCommand('schemaForge.init', initCommand);
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
-	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', diffCommand);
+	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', () =>
+		diffCommand((code) => schemaStatusBar.setDriftResultFromExitCode(code))
+	);
+	const diffPreviewDisposable = vscode.commands.registerCommand('schemaForge.diffPreview', diffPreviewCommand);
+	const previewSqlDisposable = vscode.commands.registerCommand('schemaForge.previewSql', previewSqlCommand);
+	const copyDiffPreviewDisposable = vscode.commands.registerCommand(
+		'schemaForge.copyDiffPreviewSql',
+		copyLatestDiffPreviewSql
+	);
 	const convertToUuidPkCommandDisposable = registerConvertToUuidPkCommand(context);
 
 	// Initialize syntax diagnostics provider
@@ -95,6 +111,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Initialize hover provider
 	const hoverProvider = createHoverProvider();
+
+	// Initialize completion provider for types, constraints, default value hints
+	const completionProvider = createCompletionProvider();
 
 	// Auto-detect missing project structure on .sf file open
 	const documentOpenDisposable = vscode.workspace.onDidOpenTextDocument(async (document) => {
@@ -107,14 +126,23 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(
+		schemaStatusBar,
 		initDisposable,
 		generateDisposable,
 		diffDisposable,
+		diffPreviewDisposable,
+		previewSqlDisposable,
+		copyDiffPreviewDisposable,
 		convertToUuidPkCommandDisposable,
 		documentOpenDisposable,
 		syntaxDiagnosticsProvider,
 		vscode.languages.registerHoverProvider({ language: 'schema-forge' }, hoverProvider),
 		hoverProvider,
+		vscode.languages.registerCompletionItemProvider(
+			{ language: 'schema-forge' },
+			completionProvider
+		),
+		completionProvider,
 		vscode.languages.registerCodeActionsProvider(
 			{ language: 'schema-forge' },
 			new AddPrimaryKeyCodeActionProvider(),

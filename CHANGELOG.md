@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- 215b733: ✨ feat(vscode): add schema drift status bar and improve diff command integration
+
+  - Introduced `SchemaStatusBar` class to manage status updates for schema drift detection.
+  - Integrated status bar updates with `diffCommand` so drift results update the UI without rerunning the diff.
+  - Registered the status bar during extension activation.
+  - Refactored `diffCommand` to support an optional callback for exit code handling.
+  - Added `runDiff` utility to execute schema diff checks headlessly for reuse across commands and UI components.
+  - Added tests to validate status updates and diff execution flow.
+
+- 215b733: ✨ add diff preview functionality and related commands
+
+  - Introduced a new command `schemaForge.diffPreview` for generating SQL diff previews.
+  - Updated `package.json` to include the new command and its title.
+  - Implemented the `diffPreviewCommand` in `src/commands/diffPreview.ts` to handle the logic for generating previews.
+  - Enhanced the UI with a new `sqlPreviewPanel` to display the diff results.
+  - Added tests for the new command and SQL preview utilities.
+  - Updated the main extension file to register the new command and its associated functionality.
+
+- 215b733: ✨ feat(vscode): add `previewSql` command for SQL generation preview
+
+  - Introduced new `schemaForge.previewSql` command to generate SQL previews based on schema differences.
+  - Registered the command in `package.json` with its title and metadata.
+  - Implemented command logic in `src/commands/previewSql.ts`.
+  - Updated extension activation to register and expose the new command.
+  - Added integration tests to validate command registration and execution behavior.
+
+- 215b733: ✨ feat(vscode): implement completion provider for Schema Forge DSL
+
+  - Added `SchemaForgeCompletionProvider` to provide autocomplete suggestions for the Schema Forge DSL.
+  - Implemented a completion catalog including:
+    - Base types
+    - Parameterized types
+    - Constraint modifiers
+    - Default value suggestions
+  - Registered the completion provider during extension activation.
+  - Added unit tests to validate suggestion accuracy and provider behavior.
+
 ## 0.2.9
 
 ### Patch Changes
