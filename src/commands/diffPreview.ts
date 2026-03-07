@@ -1,8 +1,9 @@
-import { spawn } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { spawn } from 'child_process';
 import * as vscode from 'vscode';
 import { clearOutput, logError, logInfo, logToOutput, showOutput } from '../output';
+import { showDiffSqlPreview } from '../ui/sqlPreviewPanel';
 import { getWorkspaceFolder } from '../utils/workspace';
 
 function getLocalCliPath(): string | null {
@@ -20,10 +21,7 @@ function getLocalCliPath(): string | null {
   return null;
 }
 
-/**
- * Optional callback invoked when the diff process exits; used by the status bar to reflect drift without running a second diff.
- */
-export async function diffCommand(onExitCode?: (code: number | null) => void): Promise<void> {
+export async function diffPreviewCommand(): Promise<void> {
   const workspaceFolder = await getWorkspaceFolder();
   if (!workspaceFolder) {
     return;
@@ -34,17 +32,21 @@ export async function diffCommand(onExitCode?: (code: number | null) => void): P
 
   const localCliPath = getLocalCliPath();
   let command: string;
-
   if (localCliPath) {
     command = `node "${localCliPath}" diff`;
     logInfo(`Using local CLI: ${localCliPath}`);
   } else {
-    command = `npx --yes @xubylele/schema-forge diff`;
-    logInfo(`Using npx to run schema-forge diff`);
+    command = 'npx --yes @xubylele/schema-forge diff';
+    logInfo('Using npx to run schema-forge diff');
   }
 
   logInfo(`Working directory: ${workspaceFolder.uri.fsPath}`);
+  logInfo('Starting SQL diff preview...');
   logInfo('');
+
+  const startedAt = new Date();
+  const stdoutChunks: string[] = [];
+  const stderrChunks: string[] = [];
 
   const childProcess = spawn(command, [], {
     cwd: workspaceFolder.uri.fsPath,
@@ -53,29 +55,46 @@ export async function diffCommand(onExitCode?: (code: number | null) => void): P
   });
 
   childProcess.stdout?.on('data', (data: Buffer) => {
-    logToOutput(data.toString());
+    const text = data.toString();
+    stdoutChunks.push(text);
+    logToOutput(text);
   });
 
   childProcess.stderr?.on('data', (data: Buffer) => {
-    logToOutput(data.toString());
+    const text = data.toString();
+    stderrChunks.push(text);
+    logToOutput(text);
   });
 
   childProcess.on('close', (code: number | null) => {
+    const endedAt = new Date();
+    const stdoutText = stdoutChunks.join('');
+    const stderrText = stderrChunks.join('');
+    const combined = [stdoutText, stderrText].filter(Boolean).join('\n');
+    const sqlOutput = stdoutText.trim().length > 0 ? stdoutText : combined;
+
     logInfo('');
     logInfo(`Process exited with code: ${code}`);
-    onExitCode?.(code);
+
+    showDiffSqlPreview({
+      workspacePath: workspaceFolder.uri.fsPath,
+      command,
+      sql: sqlOutput,
+      exitCode: code,
+      startedAt,
+      endedAt
+    });
 
     if (code === 0) {
-      vscode.window.showInformationMessage('Schema Forge diff completed successfully!');
+      void vscode.window.showInformationMessage('Schema Forge diff preview generated successfully!');
     } else {
-      vscode.window.showErrorMessage('Schema Forge diff failed. Check output for details.');
+      void vscode.window.showErrorMessage('Schema Forge diff preview failed. Check output and preview for details.');
     }
   });
 
-  // Handle spawn errors
   childProcess.on('error', (error: Error) => {
     logError('');
     logError(`${error.message}`);
-    vscode.window.showErrorMessage(`Failed to execute Schema Forge CLI: ${error.message}`);
+    void vscode.window.showErrorMessage(`Failed to execute Schema Forge CLI: ${error.message}`);
   });
 }
