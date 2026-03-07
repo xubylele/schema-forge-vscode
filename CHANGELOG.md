@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.2
+
+### Patch Changes
+
+- 361c08c: 📝 docs: update homepage metadata and README website link
+
+  - Update `homepage` URL in `package.json`.
+  - Add the official website link to `README.md`.
+
 ## 0.3.1
 
 ### Patch Changes
