@@ -15,17 +15,15 @@ Build and manage Schema Forge projects directly in your editor with native langu
 - Command Palette actions for core workflows
 - Automatic prompt to initialize missing Schema Forge project structure
 
-## What's New in [0.2.0]
+## What's New in [0.3.0]
 
-**Editor Intelligence** — Introduces semantic analysis and inline documentation powered by [@xubylele/schema-forge-core](https://www.npmjs.com/package/@xubylele/schema-forge-core).
+**New commands & editor features**
 
-- **Diagnostics**: Real-time syntax and semantic validation with 7 diagnostic rules (no CLI spawn required)
-- **Hover Docs**: In-editor documentation for DSL constructs (table, uuid, text, varchar, timestamptz, pk, unique, default)
-- **Quick Fixes**: Automated code actions to resolve primary key issues
-  - Add missing primary key column
-  - Convert any column to `id uuid pk`
+- **Schema Forge: Diff Preview** — Generate SQL diff previews in a dedicated panel
+- **Schema Forge: Preview SQL** — Preview SQL generated from schema differences (also in editor title bar and status bar)
+- **Schema drift status bar** — Status bar shows drift state; updates when running Diff
+- **Completion provider** — Autocomplete for base types, parameterized types, constraint modifiers, and default values
 
-Editor features are fully MVP and provider-agnostic (Postgres/Supabase compatible).
 
 ## Phase 1: CLI Commands
 
@@ -34,6 +32,8 @@ Open the Command Palette and run:
 - `Schema Forge: Init` — Initializes a new Schema Forge project
 - `Schema Forge: Generate` — Generates SQL migrations from schema
 - `Schema Forge: Diff` — Shows schema differences
+- `Schema Forge: Diff Preview` — Opens a panel with SQL diff preview
+- `Schema Forge: Preview SQL` — Previews SQL from schema differences
 
 ## Phase 2: Editor Features
 
@@ -198,7 +198,7 @@ In VS Code, run **Extensions: Install from VSIX...** and choose the generated fi
 1. Open a workspace.
 2. Create or open a `.sf` file.
 3. Run `Schema Forge: Init` if your `schemaforge/` folder does not exist.
-4. Use `Schema Forge: Generate` and `Schema Forge: Diff` from the Command Palette.
+4. Use `Schema Forge: Generate`, `Schema Forge: Diff`, `Schema Forge: Diff Preview`, or `Schema Forge: Preview SQL` from the Command Palette.
 
 ## Development
 
