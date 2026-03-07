@@ -26,6 +26,7 @@ suite('Extension Integration Test Suite', () => {
 		assert.ok(commands.includes('schemaForge.init'), 'Init command should be registered');
 		assert.ok(commands.includes('schemaForge.generate'), 'Generate command should be registered');
 		assert.ok(commands.includes('schemaForge.diff'), 'Diff command should be registered');
+		assert.ok(commands.includes('schemaForge.diffPreview'), 'Diff Preview command should be registered');
 	});
 
 	test('Extension should have correct metadata', () => {
@@ -65,5 +66,8 @@ suite('Extension Integration Test Suite', () => {
 
 		const diffCommand = commands.find((cmd: any) => cmd.command === 'schemaForge.diff');
 		assert.strictEqual(diffCommand?.title, 'Schema Forge: Diff');
+
+		const diffPreviewCommand = commands.find((cmd: any) => cmd.command === 'schemaForge.diffPreview');
+		assert.strictEqual(diffPreviewCommand?.title, 'Schema Forge: Diff Preview');
 	});
 });

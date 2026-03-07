@@ -66,7 +66,8 @@ async function main() {
       'src/test/suite/semanticDiagnostics.test.ts',
       'src/test/suite/hoverProvider.test.ts',
       'src/test/suite/addPrimaryKeyAction.test.ts',
-      'src/test/suite/convertToUuidPkFix.test.ts'
+      'src/test/suite/convertToUuidPkFix.test.ts',
+      'src/test/suite/sqlPreviewPanel.test.ts'
     ],
     bundle: true,
     format: 'cjs',
