@@ -45,13 +45,13 @@ function tokenizeLine(line: string): LineToken[] {
 	return tokens;
 }
 
-/** True if cursor is in the default value slot (after "default ") */
+/** True if cursor is in the default value slot (at or after end of "default") */
 function inDefaultValueSlot(line: string, cursorColumn: number): boolean {
-	const match = line.match(/\bdefault\s+/i);
+	const match = line.match(/\bdefault\s*/i);
 	if (!match || match.index === undefined) {
 		return false;
 	}
-	const slotStart = match.index + match[0].length;
+	const slotStart = match.index + 'default'.length - 1;
 	return cursorColumn >= slotStart;
 }
 
@@ -77,7 +77,7 @@ function getCompletionSlot(line: string, cursorColumn: number): CompletionSlot {
 	const inTypeToken = cursorColumn >= typeToken.start && cursorColumn <= typeToken.end;
 	const afterTypeToken = cursorColumn > typeToken.end;
 
-	if (inTypeToken || (tokens.length === 2 && cursorColumn >= typeToken.end)) {
+	if (inTypeToken) {
 		return 'type';
 	}
 	if (afterTypeToken) {
