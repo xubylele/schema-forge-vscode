@@ -208,17 +208,29 @@ export class SchemaForgeCompletionProvider implements vscode.CompletionItemProvi
 	}
 
 	private provideDefaultValueCompletions(columnType: string | null): vscode.CompletionItem[] {
-		const hints = columnType
+		const typeHints = columnType
 			? DEFAULT_VALUE_HINTS.filter(
 					(h) => h.forTypes && h.forTypes.includes(normalizeTypeForDefault(columnType))
 			  )
-			: GENERIC_DEFAULT_HINTS;
+			: [];
 
-		if (hints.length === 0) {
-			return GENERIC_DEFAULT_HINTS.map((h) => toDefaultCompletionItem(h));
+		const seen = new Set<string>();
+		const items: vscode.CompletionItem[] = [];
+		for (const h of typeHints.length > 0 ? typeHints : GENERIC_DEFAULT_HINTS) {
+			if (seen.has(h.insertText)) {
+				continue;
+			}
+			seen.add(h.insertText);
+			items.push(toDefaultCompletionItem(h));
 		}
-
-		return hints.map((h) => toDefaultCompletionItem(h));
+		for (const h of GENERIC_DEFAULT_HINTS) {
+			if (seen.has(h.insertText)) {
+				continue;
+			}
+			seen.add(h.insertText);
+			items.push(toDefaultCompletionItem(h));
+		}
+		return items;
 	}
 
 	/** Resolve column type from line (token after column name) or from AST when line is incomplete */
