@@ -11,6 +11,7 @@ import {
 	ConvertToUuidPkCodeActionProvider,
 	registerConvertToUuidPkCommand,
 } from './features/codeActions/convertToUuidPkFix';
+import { createCompletionProvider } from './features/completion/completionProvider';
 import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
 import { createHoverProvider } from './features/hover/hoverProvider';
 import { SchemaStatusBar } from './features/statusBar/schemaStatusBar';
@@ -111,6 +112,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// Initialize hover provider
 	const hoverProvider = createHoverProvider();
 
+	// Initialize completion provider for types, constraints, default value hints
+	const completionProvider = createCompletionProvider();
+
 	// Auto-detect missing project structure on .sf file open
 	const documentOpenDisposable = vscode.workspace.onDidOpenTextDocument(async (document) => {
 		if (document.languageId === 'schema-forge') {
@@ -134,6 +138,11 @@ export function activate(context: vscode.ExtensionContext) {
 		syntaxDiagnosticsProvider,
 		vscode.languages.registerHoverProvider({ language: 'schema-forge' }, hoverProvider),
 		hoverProvider,
+		vscode.languages.registerCompletionItemProvider(
+			{ language: 'schema-forge' },
+			completionProvider
+		),
+		completionProvider,
 		vscode.languages.registerCodeActionsProvider(
 			{ language: 'schema-forge' },
 			new AddPrimaryKeyCodeActionProvider(),
