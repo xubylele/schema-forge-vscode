@@ -4,8 +4,8 @@ import * as vscode from 'vscode';
 import { diffCommand } from './commands/diff';
 import { diffPreviewCommand } from './commands/diffPreview';
 import { generateCommand } from './commands/generate';
-import { previewSqlCommand } from './commands/previewSql';
 import { initCommand } from './commands/init';
+import { previewSqlCommand } from './commands/previewSql';
 import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
 import {
 	ConvertToUuidPkCodeActionProvider,
@@ -13,6 +13,7 @@ import {
 } from './features/codeActions/convertToUuidPkFix';
 import { SyntaxDiagnosticsProvider } from './features/diagnostics/syntaxDiagnostics';
 import { createHoverProvider } from './features/hover/hoverProvider';
+import { SchemaStatusBar } from './features/statusBar/schemaStatusBar';
 import { logToOutput } from './output';
 import { copyLatestDiffPreviewSql } from './ui/sqlPreviewPanel';
 
@@ -87,9 +88,14 @@ export function activate(context: vscode.ExtensionContext) {
 	// Check if extension was updated and show README
 	checkExtensionUpdate(context);
 
+	const schemaStatusBar = new SchemaStatusBar();
+	schemaStatusBar.register();
+
 	const initDisposable = vscode.commands.registerCommand('schemaForge.init', initCommand);
 	const generateDisposable = vscode.commands.registerCommand('schemaForge.generate', generateCommand);
-	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', diffCommand);
+	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', () =>
+		diffCommand((code) => schemaStatusBar.setDriftResultFromExitCode(code))
+	);
 	const diffPreviewDisposable = vscode.commands.registerCommand('schemaForge.diffPreview', diffPreviewCommand);
 	const previewSqlDisposable = vscode.commands.registerCommand('schemaForge.previewSql', previewSqlCommand);
 	const copyDiffPreviewDisposable = vscode.commands.registerCommand(
@@ -116,6 +122,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(
+		schemaStatusBar,
 		initDisposable,
 		generateDisposable,
 		diffDisposable,

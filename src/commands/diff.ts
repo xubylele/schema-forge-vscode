@@ -1,8 +1,8 @@
 import { spawn } from 'child_process';
-import * as vscode from 'vscode';
-import * as path from 'path';
 import * as fs from 'fs';
-import { clearOutput, logInfo, logError, logToOutput, showOutput } from '../output';
+import * as path from 'path';
+import * as vscode from 'vscode';
+import { clearOutput, logError, logInfo, logToOutput, showOutput } from '../output';
 import { getWorkspaceFolder } from '../utils/workspace';
 
 function getLocalCliPath(): string | null {
@@ -20,7 +20,10 @@ function getLocalCliPath(): string | null {
   return null;
 }
 
-export async function diffCommand(): Promise<void> {
+/**
+ * Optional callback invoked when the diff process exits; used by the status bar to reflect drift without running a second diff.
+ */
+export async function diffCommand(onExitCode?: (code: number | null) => void): Promise<void> {
   const workspaceFolder = await getWorkspaceFolder();
   if (!workspaceFolder) {
     return;
@@ -60,6 +63,7 @@ export async function diffCommand(): Promise<void> {
   childProcess.on('close', (code: number | null) => {
     logInfo('');
     logInfo(`Process exited with code: ${code}`);
+    onExitCode?.(code);
 
     if (code === 0) {
       vscode.window.showInformationMessage('Schema Forge diff completed successfully!');
