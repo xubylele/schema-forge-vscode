@@ -6,6 +6,7 @@ import { diffPreviewCommand } from './commands/diffPreview';
 import { generateCommand } from './commands/generate';
 import { initCommand } from './commands/init';
 import { previewSqlCommand } from './commands/previewSql';
+import { visualDiffCommand } from './commands/visualDiff';
 import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
 import {
 	ConvertToUuidPkCodeActionProvider,
@@ -17,6 +18,22 @@ import { createHoverProvider } from './features/hover/hoverProvider';
 import { SchemaStatusBar } from './features/statusBar/schemaStatusBar';
 import { logToOutput } from './output';
 import { copyLatestDiffPreviewSql } from './ui/sqlPreviewPanel';
+
+const STATUS_BAR_ACTIONS = [
+  { label: 'Run Diff Preview', command: 'schemaForge.diffPreview' },
+  { label: 'Open Visual Diff', command: 'schemaForge.visualDiff' },
+  { label: 'Schema Forge: Generate', command: 'schemaForge.generate' },
+] as const;
+
+async function statusBarClickCommand(): Promise<void> {
+  const picked = await vscode.window.showQuickPick(STATUS_BAR_ACTIONS, {
+    placeHolder: 'Schema Forge actions',
+    matchOnDescription: true,
+  });
+  if (picked) {
+    await vscode.commands.executeCommand(picked.command);
+  }
+}
 
 /**
  * Check if schemaforge/ folder exists in the given workspace folder path
@@ -99,6 +116,8 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	const diffPreviewDisposable = vscode.commands.registerCommand('schemaForge.diffPreview', diffPreviewCommand);
 	const previewSqlDisposable = vscode.commands.registerCommand('schemaForge.previewSql', previewSqlCommand);
+	const visualDiffDisposable = vscode.commands.registerCommand('schemaForge.visualDiff', visualDiffCommand);
+	const statusBarClickDisposable = vscode.commands.registerCommand('schemaForge.statusBarClick', statusBarClickCommand);
 	const copyDiffPreviewDisposable = vscode.commands.registerCommand(
 		'schemaForge.copyDiffPreviewSql',
 		copyLatestDiffPreviewSql
@@ -132,6 +151,8 @@ export function activate(context: vscode.ExtensionContext) {
 		diffDisposable,
 		diffPreviewDisposable,
 		previewSqlDisposable,
+		visualDiffDisposable,
+		statusBarClickDisposable,
 		copyDiffPreviewDisposable,
 		convertToUuidPkCommandDisposable,
 		documentOpenDisposable,
