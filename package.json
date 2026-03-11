@@ -40,7 +40,9 @@
     "onCommand:schemaForge.generate",
     "onCommand:schemaForge.diff",
     "onCommand:schemaForge.diffPreview",
-    "onCommand:schemaForge.previewSql"
+    "onCommand:schemaForge.previewSql",
+    "onCommand:schemaForge.visualDiff",
+    "onCommand:schemaForge.statusBarClick"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -89,6 +91,14 @@
       {
         "command": "schemaForge.previewSql",
         "title": "Schema Forge: Preview SQL"
+      },
+      {
+        "command": "schemaForge.visualDiff",
+        "title": "Schema Forge: Visual Diff"
+      },
+      {
+        "command": "schemaForge.statusBarClick",
+        "title": "Schema Forge: Show actions"
       }
     ],
     "menus": {

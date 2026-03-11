@@ -35,7 +35,10 @@ Open the Command Palette and run:
 - `Schema Forge: Generate` — Generates SQL migrations from schema
 - `Schema Forge: Diff` — Shows schema differences
 - `Schema Forge: Diff Preview` — Opens a panel with SQL diff preview
+- `Schema Forge: Visual Diff` — Opens a structured view of schema changes (operations and safety findings) with links to SQL preview
 - `Schema Forge: Preview SQL` — Previews SQL from schema differences
+
+**Status bar:** Click the Schema Forge status bar item to open a menu (Run Diff Preview, Open Visual Diff, Generate). The status bar shows pending / drift / clean and briefly "checking..." after save while diff runs.
 
 ## Phase 2: Editor Features
 
