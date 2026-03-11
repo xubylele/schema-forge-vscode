@@ -38,11 +38,13 @@ export class SchemaStatusBar implements vscode.Disposable {
 	private statusBarItem: vscode.StatusBarItem;
 	private hasPendingChanges = false;
 	private lastDriftResult: DriftResult = 'unknown';
+	private isChecking = false;
 	private diffRunPromise: Promise<number | null> | null = null;
 	private disposables: vscode.Disposable[] = [];
 
 	constructor() {
 		this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right);
+		this.statusBarItem.command = 'schemaForge.statusBarClick';
 	}
 
 	register(): void {
@@ -115,19 +117,24 @@ export class SchemaStatusBar implements vscode.Disposable {
 			let backgroundColor: vscode.ThemeColor | undefined;
 			let color: string | vscode.ThemeColor | undefined;
 
-			if (this.hasPendingChanges) {
+			if (this.isChecking) {
+				text = 'Schema Forge: checking...';
+				tooltip = 'Running diff after save...';
+				backgroundColor = undefined;
+				color = undefined;
+			} else if (this.hasPendingChanges) {
 				text = 'Schema Forge: pending';
-				tooltip = 'Schema Forge: unsaved changes in .sf file(s)';
+				tooltip = 'Schema Forge: unsaved changes. Save and run Diff to check drift. Click for options.';
 				backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
 				color = undefined;
 			} else if (this.lastDriftResult === 'drift') {
 				text = 'Schema Forge: drift';
-				tooltip = 'Schema Forge: drift detected. Run "Schema Forge: Diff" for details.';
+				tooltip = 'Schema Forge: drift detected. Click to run Diff Preview or Visual Diff.';
 				backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
 				color = undefined;
 			} else {
 				text = 'Schema Forge: clean';
-				tooltip = 'Schema Forge: schema in sync';
+				tooltip = 'Schema Forge: schema in sync. Click for options.';
 				backgroundColor = undefined;
 				color = '#4ec9b0';
 			}
@@ -145,9 +152,12 @@ export class SchemaStatusBar implements vscode.Disposable {
 		if (this.diffRunPromise) {
 			return;
 		}
+		this.isChecking = true;
+		this.refresh();
 		this.diffRunPromise = runDiff();
 		this.diffRunPromise.then((code) => {
 			this.diffRunPromise = null;
+			this.isChecking = false;
 			if (code === DRIFT_EXIT_CODE) {
 				this.lastDriftResult = 'drift';
 			} else if (code !== null) {
