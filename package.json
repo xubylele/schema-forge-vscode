@@ -7,7 +7,7 @@
   },
   "displayName": "Schema Forge",
   "description": "Official VS Code and Open VSX extension for Schema Forge. Provides language support and tooling for the Schema Forge DSL (.sf).",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "license": "MIT",
   "icon": "icon.png",
   "homepage": "https://schemaforge.xuby.cl/",
@@ -40,7 +40,9 @@
     "onCommand:schemaForge.generate",
     "onCommand:schemaForge.diff",
     "onCommand:schemaForge.diffPreview",
-    "onCommand:schemaForge.previewSql"
+    "onCommand:schemaForge.previewSql",
+    "onCommand:schemaForge.visualDiff",
+    "onCommand:schemaForge.statusBarClick"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -89,6 +91,14 @@
       {
         "command": "schemaForge.previewSql",
         "title": "Schema Forge: Preview SQL"
+      },
+      {
+        "command": "schemaForge.visualDiff",
+        "title": "Schema Forge: Visual Diff"
+      },
+      {
+        "command": "schemaForge.statusBarClick",
+        "title": "Schema Forge: Show actions"
       }
     ],
     "menus": {
