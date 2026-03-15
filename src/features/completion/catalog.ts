@@ -128,8 +128,12 @@ export const GENERIC_DEFAULT_HINTS: DefaultValueHint[] = [
 export function normalizeTypeForDefault(type: string): string {
 	const t = type.toLowerCase().trim();
 	const varcharMatch = t.match(/^varchar\s*\(\s*\d+\s*\)$/);
-	if (varcharMatch) return 'varchar';
+	if (varcharMatch) {
+			return 'varchar';
+		}
 	const numericMatch = t.match(/^numeric\s*\(\s*\d+\s*,\s*\d+\s*\)$/);
-	if (numericMatch) return 'numeric';
+	if (numericMatch) {
+		return 'numeric';
+	}
 	return t;
 }
