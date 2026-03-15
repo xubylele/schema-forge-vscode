@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.4.1
+
+### Patch Changes
+
+- 7d7c64d: ♻️ refactor(core): improve readability in visualDiff and catalog modules
+
+  - Reorder and group import statements for clarity.
+  - Simplify conditional logic in the `visualDiff` command.
+  - Improve formatting of `normalizeTypeForDefault` for consistency.
+
+- 96a0eca: ⬆️ chore(deps): update core and development dependencies
+
+  - Upgrade `@xubylele/schema-forge-core` to `1.3.2`.
+  - Update `@types/vscode` to `1.70.0`.
+  - Bump `esbuild` to `0.27.4` and `eslint` to `10.0.3`.
+  - Update Azure-related packages and other dependency versions.
+
 ## 0.4.0
 
 ### Minor Changes

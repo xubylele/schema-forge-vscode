@@ -1,15 +1,15 @@
-import * as fs from 'fs/promises';
-import * as path from 'path';
-import * as vscode from 'vscode';
+import type { Finding, Operation } from '@xubylele/schema-forge-core';
 import {
   diffSchemas,
   loadState,
   parseSchema,
   validateSchemaChanges,
 } from '@xubylele/schema-forge-core';
-import type { Finding, Operation } from '@xubylele/schema-forge-core';
-import { showVisualDiffPanel } from '../ui/visualDiffPanel';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import * as vscode from 'vscode';
 import type { VisualDiffPayload } from '../ui/visualDiffPanel';
+import { showVisualDiffPanel } from '../ui/visualDiffPanel';
 import { getWorkspaceFolder } from '../utils/workspace';
 
 interface ConfigShape {
@@ -115,8 +115,12 @@ export async function visualDiffCommand(): Promise<void> {
     summary = `${errors.length} destructive, ${warnings.length} warning(s).`;
   } else {
     const parts = [`${operations.length} change(s)`];
-    if (errors.length > 0) parts.push(`${errors.length} destructive`);
-    if (warnings.length > 0) parts.push(`${warnings.length} warning(s)`);
+    if (errors.length > 0) {
+      parts.push(`${errors.length} destructive`);
+    }
+    if (warnings.length > 0) {
+      parts.push(`${warnings.length} warning(s)`);
+    }
     summary = parts.join(' — ');
   }
 
