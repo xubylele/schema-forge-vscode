@@ -17,13 +17,18 @@ Build and manage Schema Forge projects directly in your editor with native langu
 - Command Palette actions for core workflows
 - Automatic prompt to initialize missing Schema Forge project structure
 
-## What's New in [0.3.0]
+## What's New in 0.4.x
 
-**New commands & editor features**
+**Visual diff & status bar**
 
-- **Schema Forge: Diff Preview** — Generate SQL diff previews in a dedicated panel
-- **Schema Forge: Preview SQL** — Preview SQL generated from schema differences (also in editor title bar and status bar)
-- **Schema drift status bar** — Status bar shows drift state; updates when running Diff
+- **Schema Forge: Visual Diff** — Structured view of schema changes (operations and safety findings) with links to SQL preview
+- **Status bar menu** — Click the status bar item to open a menu: Run Diff Preview, Open Visual Diff, Generate
+- **Schema drift status bar** — Status bar shows pending / drift / clean and briefly "checking..." after save
+
+**From 0.3.0**
+
+- **Schema Forge: Diff Preview** — SQL diff previews in a dedicated panel
+- **Schema Forge: Preview SQL** — Preview SQL from schema differences (editor title bar and context menu)
 - **Completion provider** — Autocomplete for base types, parameterized types, constraint modifiers, and default values
 
 
@@ -134,6 +139,10 @@ When applicable diagnostics are present, a lightbulb icon appears. Press `Ctrl+.
 
 ![Schema Forge Quick Fix](./images/quick-action.gif)
 *Quick Fix lightbulb converts a column to 'id uuid pk'*
+
+## Release line support (RLS)
+
+This extension supports **VS Code 1.70.0 and newer** (`^1.70.0`). It is tested against the current VS Code release line. Older VS Code versions are not supported.
 
 ## Compatibility & Limitations
 
