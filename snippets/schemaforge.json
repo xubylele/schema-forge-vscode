@@ -24,5 +24,15 @@
       "updated_at timestamptz default now()"
     ],
     "description": "Add created_at and updated_at timestamp columns"
+  },
+  "Policy": {
+    "prefix": "policy",
+    "body": [
+      "policy \"${1:policy_name}\" on ${2:table_name}",
+      "for ${3:select}",
+      "using ${4:table.id = id}"
+    ],
+    "description": "Create a new RLS policy",
+    "scope": "schemaforge"
   }
 }
