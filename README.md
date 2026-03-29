@@ -13,24 +13,18 @@ Build and manage Schema Forge projects directly in your editor with native langu
 ## Why use this extension
 
 - Native support for `.sf` files
+- Syntax highlighting for tables, columns, defaults, and RLS policies
 - Built-in snippets for faster schema authoring
 - Command Palette actions for core workflows
 - Automatic prompt to initialize missing Schema Forge project structure
 
 ## What's New in 0.4.x
 
-**Visual diff & status bar**
+### Visual diff & status bar
 
 - **Schema Forge: Visual Diff** — Structured view of schema changes (operations and safety findings) with links to SQL preview
 - **Status bar menu** — Click the status bar item to open a menu: Run Diff Preview, Open Visual Diff, Generate
 - **Schema drift status bar** — Status bar shows pending / drift / clean and briefly "checking..." after save
-
-**From 0.3.0**
-
-- **Schema Forge: Diff Preview** — SQL diff previews in a dedicated panel
-- **Schema Forge: Preview SQL** — Preview SQL from schema differences (editor title bar and context menu)
-- **Completion provider** — Autocomplete for base types, parameterized types, constraint modifiers, and default values
-
 
 ## Phase 1: CLI Commands
 
@@ -46,6 +40,29 @@ Open the Command Palette and run:
 **Status bar:** Click the Schema Forge status bar item to open a menu (Run Diff Preview, Open Visual Diff, Generate). The status bar shows pending / drift / clean and briefly "checking..." after save while diff runs.
 
 ## Phase 2: Editor Features
+
+### Syntax Highlighting & Snippets
+
+The extension includes TextMate highlighting for Schema Forge DSL constructs, including:
+
+- Table declarations and column definitions
+- Types, modifiers, function defaults, and literals
+- Multiline RLS policy blocks such as `policy`, `for`, `to`, `using`, and `with check`
+
+Available snippets include:
+
+- `table` — Creates a table scaffold with a UUID primary key
+- `uuidpk` — Inserts a UUID primary key column
+- `timestamps` — Adds `created_at` and `updated_at`
+- `policy` — Creates a multiline RLS policy block
+
+Example `policy` snippet expansion:
+
+```sf
+policy "policy_name" on table_name
+for select
+using table.id = id
+```
 
 ### Diagnostics
 
