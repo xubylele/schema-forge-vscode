@@ -8,6 +8,9 @@
     },
     {
       "include": "#table-declaration"
+    },
+    {
+      "include": "#policy-declaration"
     }
   ],
   "repository": {
@@ -76,6 +79,52 @@
           ]
         }
       }
+    },
+    "policy-declaration": {
+      "begin": "^\\s*(policy)\\s+",
+      "end": "(?=^\\s*(?:policy|table)\\b)|\\z",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.policy.schemaforge"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comments"
+        },
+        {
+          "match": "\"[^\"]*\"",
+          "name": "string.quoted.double.schemaforge"
+        },
+        {
+          "match": "\\b(on)\\b",
+          "name": "keyword.control.on.schemaforge"
+        },
+        {
+          "match": "(?<=\\bon\\s)([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+          "name": "entity.name.type.table.schemaforge"
+        },
+        {
+          "match": "\\b(for|to|using|with|check)\\b",
+          "name": "keyword.control.policy.clause.schemaforge"
+        },
+        {
+          "match": "\\b(select|insert|update|delete|all)\\b",
+          "name": "keyword.control.operation.schemaforge"
+        },
+        {
+          "match": "\\b(anon|authenticated|service_role)\\b",
+          "name": "support.constant.role.schemaforge"
+        },
+        {
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
+          "name": "entity.name.function.schemaforge"
+        },
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.schemaforge"
+        }
+      ]
     },
     "type-parameters": {
       "match": "\\(([^)]+)\\)",
