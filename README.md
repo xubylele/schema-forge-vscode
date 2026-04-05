@@ -18,13 +18,14 @@ Build and manage Schema Forge projects directly in your editor with native langu
 - Command Palette actions for core workflows
 - Automatic prompt to initialize missing Schema Forge project structure
 
-## What's New in 0.4.x
+## What's New in 0.6.x
 
-### Visual diff & status bar
+### Migration planning & preview workflows
 
-- **Schema Forge: Visual Diff** — Structured view of schema changes (operations and safety findings) with links to SQL preview
-- **Status bar menu** — Click the status bar item to open a menu: Show Migration Plan, Run Migration Preview, Run Diff Preview, Open Visual Diff, Generate
-- **Schema drift status bar** — Status bar shows pending / drift / clean and briefly "checking..." after save
+- **Schema Forge: Plan** — Run migration plan preview with human-readable operation lines
+- **Schema Forge: Preview** — Run migration preview via alias flow
+- **Status bar menu updates** — Includes the new planning and preview actions alongside existing commands
+- **Improved Visual Diff UX** — Clearer operation descriptions for index, policy, and view changes
 
 ## Phase 1: CLI Commands
 
