@@ -5,6 +5,8 @@ import { diffCommand } from './commands/diff';
 import { diffPreviewCommand } from './commands/diffPreview';
 import { generateCommand } from './commands/generate';
 import { initCommand } from './commands/init';
+import { planCommand } from './commands/plan';
+import { previewCommand } from './commands/preview';
 import { previewSqlCommand } from './commands/previewSql';
 import { visualDiffCommand } from './commands/visualDiff';
 import { AddPrimaryKeyCodeActionProvider } from './features/codeActions/addPrimaryKeyAction';
@@ -20,19 +22,21 @@ import { logToOutput } from './output';
 import { copyLatestDiffPreviewSql } from './ui/sqlPreviewPanel';
 
 const STATUS_BAR_ACTIONS = [
-  { label: 'Run Diff Preview', command: 'schemaForge.diffPreview' },
-  { label: 'Open Visual Diff', command: 'schemaForge.visualDiff' },
-  { label: 'Schema Forge: Generate', command: 'schemaForge.generate' },
+	{ label: 'Show Migration Plan', command: 'schemaForge.plan' },
+	{ label: 'Run Migration Preview', command: 'schemaForge.preview' },
+	{ label: 'Run Diff Preview', command: 'schemaForge.diffPreview' },
+	{ label: 'Open Visual Diff', command: 'schemaForge.visualDiff' },
+	{ label: 'Schema Forge: Generate', command: 'schemaForge.generate' },
 ] as const;
 
 async function statusBarClickCommand(): Promise<void> {
-  const picked = await vscode.window.showQuickPick(STATUS_BAR_ACTIONS, {
-    placeHolder: 'Schema Forge actions',
-    matchOnDescription: true,
-  });
-  if (picked) {
-    await vscode.commands.executeCommand(picked.command);
-  }
+	const picked = await vscode.window.showQuickPick(STATUS_BAR_ACTIONS, {
+		placeHolder: 'Schema Forge actions',
+		matchOnDescription: true,
+	});
+	if (picked) {
+		await vscode.commands.executeCommand(picked.command);
+	}
 }
 
 /**
@@ -114,6 +118,8 @@ export function activate(context: vscode.ExtensionContext) {
 	const diffDisposable = vscode.commands.registerCommand('schemaForge.diff', () =>
 		diffCommand((code) => schemaStatusBar.setDriftResultFromExitCode(code))
 	);
+	const planDisposable = vscode.commands.registerCommand('schemaForge.plan', planCommand);
+	const previewDisposable = vscode.commands.registerCommand('schemaForge.preview', previewCommand);
 	const diffPreviewDisposable = vscode.commands.registerCommand('schemaForge.diffPreview', diffPreviewCommand);
 	const previewSqlDisposable = vscode.commands.registerCommand('schemaForge.previewSql', previewSqlCommand);
 	const visualDiffDisposable = vscode.commands.registerCommand('schemaForge.visualDiff', visualDiffCommand);
@@ -149,6 +155,8 @@ export function activate(context: vscode.ExtensionContext) {
 		initDisposable,
 		generateDisposable,
 		diffDisposable,
+		planDisposable,
+		previewDisposable,
 		diffPreviewDisposable,
 		previewSqlDisposable,
 		visualDiffDisposable,

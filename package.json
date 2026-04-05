@@ -39,6 +39,8 @@
     "onCommand:schemaForge.init",
     "onCommand:schemaForge.generate",
     "onCommand:schemaForge.diff",
+    "onCommand:schemaForge.plan",
+    "onCommand:schemaForge.preview",
     "onCommand:schemaForge.diffPreview",
     "onCommand:schemaForge.previewSql",
     "onCommand:schemaForge.visualDiff",
@@ -85,6 +87,14 @@
         "title": "Schema Forge: Diff"
       },
       {
+        "command": "schemaForge.plan",
+        "title": "Schema Forge: Plan"
+      },
+      {
+        "command": "schemaForge.preview",
+        "title": "Schema Forge: Preview"
+      },
+      {
         "command": "schemaForge.diffPreview",
         "title": "Schema Forge: Diff Preview"
       },
@@ -117,7 +127,7 @@
     }
   },
   "dependencies": {
-    "@xubylele/schema-forge-core": "^1.5.0"
+    "@xubylele/schema-forge-core": "^1.6.0"
   },
   "scripts": {
     "build": "node esbuild.config.js",
