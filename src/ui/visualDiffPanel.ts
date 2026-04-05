@@ -25,7 +25,7 @@ function escapeHtml(input: string): string {
     .replaceAll("'", '&#39;');
 }
 
-function formatOperation(op: Operation): string {
+export function formatOperationForDisplay(op: Operation): string {
   const strong = (s: string) => `<strong>${escapeHtml(s)}</strong>`;
   switch (op.kind) {
     case 'create_table':
@@ -48,6 +48,22 @@ function formatOperation(op: Operation): string {
       return `Add primary key ${strong(`${op.tableName}.${op.columnName}`)}`;
     case 'drop_primary_key_constraint':
       return `Drop primary key ${strong(op.tableName)}`;
+    case 'create_index':
+      return `Add index ${strong(op.index.name)} on ${strong(op.tableName)}`;
+    case 'drop_index':
+      return `Remove index ${strong(op.index.name)} on ${strong(op.tableName)}`;
+    case 'create_policy':
+      return `Add policy ${strong(op.policy.name)} on ${strong(op.tableName)}`;
+    case 'modify_policy':
+      return `Modify policy ${strong(op.policyName)} on ${strong(op.tableName)}`;
+    case 'drop_policy':
+      return `Remove policy ${strong(op.policyName)} on ${strong(op.tableName)}`;
+    case 'create_view':
+      return `Add view ${strong(op.view.name)}`;
+    case 'replace_view':
+      return `Replace view ${strong(op.view.name)}`;
+    case 'drop_view':
+      return `Remove view ${strong(op.viewName)}`;
     default:
       return escapeHtml(JSON.stringify(op));
   }
@@ -108,7 +124,7 @@ function buildVisualDiffHtml(payload: VisualDiffPayload): string {
   const operationsList =
     operations.length === 0
       ? '<p class="muted">No schema changes.</p>'
-      : `<ul class="ops">${operations.map((op) => `<li>${formatOperation(op)}</li>`).join('')}</ul>`;
+      : `<ul class="ops">${operations.map((op) => `<li>${formatOperationForDisplay(op)}</li>`).join('')}</ul>`;
 
   const errors = findings.filter((f) => f.severity === 'error');
   const warnings = findings.filter((f) => f.severity === 'warning');

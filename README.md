@@ -13,18 +13,19 @@ Build and manage Schema Forge projects directly in your editor with native langu
 ## Why use this extension
 
 - Native support for `.sf` files
-- Syntax highlighting for tables, columns, defaults, and RLS policies
+- Syntax highlighting for tables, columns, defaults, indexes, views, and RLS policies
 - Built-in snippets for faster schema authoring
 - Command Palette actions for core workflows
 - Automatic prompt to initialize missing Schema Forge project structure
 
-## What's New in 0.4.x
+## What's New in 0.6.x
 
-### Visual diff & status bar
+### Migration planning & preview workflows
 
-- **Schema Forge: Visual Diff** — Structured view of schema changes (operations and safety findings) with links to SQL preview
-- **Status bar menu** — Click the status bar item to open a menu: Run Diff Preview, Open Visual Diff, Generate
-- **Schema drift status bar** — Status bar shows pending / drift / clean and briefly "checking..." after save
+- **Schema Forge: Plan** — Run migration plan preview with human-readable operation lines
+- **Schema Forge: Preview** — Run migration preview via alias flow
+- **Status bar menu updates** — Includes the new planning and preview actions alongside existing commands
+- **Improved Visual Diff UX** — Clearer operation descriptions for index, policy, and view changes
 
 ## Phase 1: CLI Commands
 
@@ -33,11 +34,13 @@ Open the Command Palette and run:
 - `Schema Forge: Init` — Initializes a new Schema Forge project
 - `Schema Forge: Generate` — Generates SQL migrations from schema
 - `Schema Forge: Diff` — Shows schema differences
+- `Schema Forge: Plan` — Shows migration operations in human-readable plan format (`+` create, `~` modify, `-` delete)
+- `Schema Forge: Preview` — Runs migration preview (alias flow for plan preview)
 - `Schema Forge: Diff Preview` — Opens a panel with SQL diff preview
 - `Schema Forge: Visual Diff` — Opens a structured view of schema changes (operations and safety findings) with links to SQL preview
 - `Schema Forge: Preview SQL` — Previews SQL from schema differences
 
-**Status bar:** Click the Schema Forge status bar item to open a menu (Run Diff Preview, Open Visual Diff, Generate). The status bar shows pending / drift / clean and briefly "checking..." after save while diff runs.
+**Status bar:** Click the Schema Forge status bar item to open a menu (Show Migration Plan, Run Migration Preview, Run Diff Preview, Open Visual Diff, Generate). The status bar shows pending / drift / clean and briefly "checking..." after save while diff runs.
 
 ## Phase 2: Editor Features
 
@@ -229,7 +232,7 @@ In VS Code, run **Extensions: Install from VSIX...** and choose the generated fi
 1. Open a workspace.
 2. Create or open a `.sf` file.
 3. Run `Schema Forge: Init` if your `schemaforge/` folder does not exist.
-4. Use `Schema Forge: Generate`, `Schema Forge: Diff`, `Schema Forge: Diff Preview`, or `Schema Forge: Preview SQL` from the Command Palette.
+4. Use `Schema Forge: Plan`, `Schema Forge: Preview`, `Schema Forge: Generate`, `Schema Forge: Diff`, `Schema Forge: Diff Preview`, or `Schema Forge: Preview SQL` from the Command Palette.
 
 ## Development
 
